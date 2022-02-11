@@ -1,7 +1,4 @@
-﻿@*<nav class="navbar navbar-dark active">
-    <span class="navbar-brand mb-0 h1" id="hms">HOSPITAL MANAGEMENT SYSTEM</span>
-</nav>*@
-@{
+﻿@{
     ViewBag.Title = "Index";
 }
 <style>
@@ -45,7 +42,7 @@
                 
                 "columnDefs": [{  "targets": [1, 2,3, 4, 5, 6, 7], className: 'dt-head-center dt-body-center' },
                     {
-                    'targets': [7],
+                    'targets': [5,7],
                     'orderable': false,
                 }],
            
@@ -63,42 +60,37 @@
                         "name": "Name",
                         "width": "17%",
 
-                      /*  "autowidth": true*/
+                      
                     },
                     {
                         "data": "Age",
                         "name": "Age",
                         "width": "7%",
 
-                      /*  "autowidth": true*/
                     },
                     {
                         "data": "Gender",
                         "name": "Gender",
                         "width": "10%",
 
-                        /*"autowidth": true*/
                     },
                     {
                         "data": "Department",
                         "name": "Department",
                         "width": "8%",
 
-/*                        "autowidth": true*/
                     },
                     {
                         "data": "CovidTestResult",
                         "CovidTestResult": "Name",
                         "width": "16%",
 
-                   /*     "autowidth": true*/
                     },
                     {
                         "data": "Contact",
                         "name": "Contact",
                         "width": "10%",
 
-                   /*     "autowidth": true*/
                     },
                     {
                         "data": "InPatient",
@@ -128,7 +120,7 @@
         <div style="padding-bottom:-10rem">
             <button type="button"  class="btn btn-primary" data-toggle="modal" data-target="#addPatient"
                     onclick="createmodal()">
-                Create
+                Add Patient
             </button>
         </div>
     </div>
@@ -190,7 +182,7 @@
                         "closeButton": true,
                         "newestOnTop": false,
                         "progressBar": true,
-                        "positionClass": "toast-top-right",
+                        "positionClass": "toast-bottom-right",
                         "preventDuplicates": false,
                         "onclick": null,
                         "showDuration": "200",
@@ -202,7 +194,7 @@
                         "showMethod": "fadeIn",
                         "hideMethod": "fadeOut"
                     }
-                    toastr["success"]("Patient created successfully!")
+                    toastr["success"]("Patient added successfully!")
 
                    
                     modal.modal('hide');
@@ -262,7 +254,7 @@
                         "closeButton": true,
                         "newestOnTop": false,
                         "progressBar": true,
-                        "positionClass": "toast-top-right",
+                        "positionClass": "toast-bottom-right",
                         "preventDuplicates": false,
                         "onclick": null,
                         "showDuration": "200",
@@ -300,7 +292,7 @@
                     "closeButton": true,
                     "newestOnTop": false,
                     "progressBar": true,
-                    "positionClass": "toast-top-right",
+                    "positionClass": "toast-bottom-right",
                     "preventDuplicates": false,
                     "onclick": null,
                     "showDuration": "200",

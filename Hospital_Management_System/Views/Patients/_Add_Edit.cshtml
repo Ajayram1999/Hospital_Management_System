@@ -3,19 +3,16 @@
 
 <form name="addform" id="addform">
     <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel" style="padding-left:143px">PATIENT DETAILS</h4>
+        <h4 class="modal-title" id="exampleModalLabel" style="padding-left:143px;color:black">PATIENT DETAILS</h4>
         <button type="button" style="margin-left:147px"  class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="modal-body">
+    <div class="modal-body" style=" color: white; background-color: black;">
 
         @Html.AntiForgeryToken()
 
-        <div class="form-group">
-
-
-            @*<hr />*@
+        <div class="form-group"> 
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             @Html.HiddenFor(model => model.Id)
 
@@ -33,16 +30,7 @@
             <div class="form-horizontal">
                 @Html.LabelFor(model => model.Age, "Age", htmlAttributes: new { @class = "control-label col-md-2", style = "padding-right:33px" })
                 <div class="col-md-10" style="padding-left: 9%">
-                    @Html.EditorFor(model => model.Age, new
-                    {
-                        htmlAttributes = new
-                        {
-                            @class = "form-control disable",
-                   @id = "PatientAge",
-                   style = "width:327px;",
-                            @onkeyup = "validateage()"
-                        }
-                    })
+                    @Html.EditorFor(model => model.Age, new { htmlAttributes = new {@class = "form-control disable",@id = "PatientAge", style = "width:327px;",@onkeyup = "validateage()"} })
                     @Html.ValidationMessageFor(model => model.Age, "", new { @class = "text-danger", @id = "PatAge" })
                 </div>
             </div>
@@ -59,8 +47,7 @@
             <option value="Female">Female</option>
             <option value="Others">Others</option>
         </select>
-                   
-                    @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger", @id = "PatGender" })
+                      @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger", @id = "PatGender" })
                 </div>
                 <br />
                 <br />
@@ -149,7 +136,6 @@
             $('#Gender').val('@Model.Gender');
             $('#CovidTestResult').val('@Model.CovidTestResult');
             $('#Department').val('@Model.Department');
-            //$('#btnEdit').hide()
             document.getElementById("btnedit").disabled = false;
 
         }

@@ -162,7 +162,8 @@ namespace Hospital_Management_System.Controllers
                     data = patientList,
                     recordsTotal = totalCount,
                     recordsFiltered = totalCount
-                }, JsonRequestBehavior.AllowGet);
+                },
+                JsonRequestBehavior.AllowGet);
             }
             catch
             {

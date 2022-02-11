@@ -16,7 +16,7 @@
                 
             </style>
         </div>
-    <div class="modal-body">
+    <div class="modal-body" style=" color: white; background-color: black;">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
         <div class="form-group">
@@ -44,6 +44,6 @@
     </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-danger" onclick="DeletePatient()">Yes</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" style="width:50px;">No</button>
         </div>
 </form>
