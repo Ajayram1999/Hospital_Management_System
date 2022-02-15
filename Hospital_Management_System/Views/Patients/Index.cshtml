@@ -39,6 +39,9 @@
                 "serverSide": true,
                 "filter": true,
                 "dom": '<"top"f>rt<"bottom"ilp><"clear">',
+              
+                "scrollY":"380PX",
+                "scrollCollapse":false,
                 
                 "columnDefs": [{  "targets": [1, 2,3, 4, 5, 6, 7], className: 'dt-head-center dt-body-center' },
                     {
@@ -107,7 +110,7 @@
                         "width":"40%",
                         "render": function (data,type,full,meta) {
 
-                            return '<button class="btn btn-info" type="View" onclick="viewPatient(' + full.Id + ')" ><span class="glyphicon glyphicon-eye-open"></span></button> <button class="btn btn-warning" type="Edit" onclick="viewEdit(' + full.Id + ')"><span class="glyphicon glyphicon-pencil"></span></button>  <button class="btn btn-danger" title="Delete" onclick="viewdelete(' + full.Id + ')"><span class="glyphicon glyphicon-trash"></span></button>';
+                            return '<a class="blue" title="View" onclick="viewPatient(' + full.Id + ')" ><span class="glyphicon glyphicon-eye-open"></span></a> <a class="Yellow space" title="Edit" onclick="viewEdit(' + full.Id + ')"><span class="glyphicon glyphicon-pencil"></span></a>  <a class="Red" title="Delete" onclick="viewdelete(' + full.Id + ')"><span class="glyphicon glyphicon-trash"></span></a>';
                         }
                     },
                 ]
@@ -118,7 +121,7 @@
 <p>
     <div style="padding-left:0rem">
         <div style="padding-bottom:-10rem">
-            <button type="button"  class="btn btn-primary" data-toggle="modal" data-target="#addPatient"
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addPatient"
                     onclick="createmodal()">
                 Add Patient
             </button>

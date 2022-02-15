@@ -12,7 +12,7 @@ namespace Hospital_Management_System.Services
 {
     public class DBHandle
     {
-        static string connectionstring = "Data Source=ASUSX515;Initial Catalog=SYSTEM;Integrated Security=True;Pooling=False";
+        static string connectionstring = "Data Source=ASUSX515;Initial Catalog=Hospital;Integrated Security=True;Pooling=False";
         SqlConnection con = new SqlConnection(connectionstring);
         SqlCommand cmd;
         SqlDataAdapter sda;
