@@ -38,8 +38,38 @@
                 "processing": true,
                 "serverSide": true,
                 "filter": true,
-                "dom": '<"top"f>rt<"bottom"ilp><"clear">',
-              
+                "dom": '<"top"Bf>rt<"bottom"ilp><"clear">',
+                buttons: [
+                    {
+                        extend: 'excel',
+                        title: "Hospital Management System",
+                        autoFilter: true,
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5]
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        title:"Hospital Management System",
+                        download:'open',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5]
+                        },
+                        customize: function (doc) {
+                            doc.defaultStyle.alignment = 'center';
+                            doc.styles.tableHeader.alignment = 'center';
+                            doc.content[1].table.widths = Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+                            doc.content[1].table.headerRows = 1;
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        title: "Hospital Management System",
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5]
+                        }
+                    }
+                ],
                 "scrollY":"380PX",
                 "scrollCollapse":false,
                 
@@ -115,8 +145,42 @@
                     },
                 ]
             });
+        $("#pdf").hide();
+        $("#excel").hide();
+        $("#print").hide();
     });
-
+    $(document).on('click', '#excel', function () {
+        $(".buttons-excel")[0].click();
+        $("#pdf").hide();
+        $("#excel").hide();
+        $("#print").hide();
+    });
+    $(document).on('click', '#pdf', function () {
+        $(".buttons-pdf")[0].click();
+        $("#pdf").hide();
+        $("#excel").hide();
+        $("#print").hide();
+    });
+    $(document).on('click', '#print', function () {
+        $(".buttons-print")[0].click();
+        $("#pdf").hide();
+        $("#excel").hide();
+        $("#print").hide();
+    });
+    $(document).on('click', '#export', function () {
+        var x = document.getElementById('pdf');
+        var y = document.getElementById('excel');
+        var z = document.getElementById('print');
+        if (x.style.display === "none" && y.style.display === "none" && z.style.display === "none") {
+            x.style.display = "inline";
+            y.style.display = "inline";
+            z.style.display = "inline";
+        } else {
+            x.style.display = "none";
+            y.style.display = "none";
+            z.style.display = "none";
+        }
+    });
 </script>
 <p>
     <div style="padding-left:0rem">
@@ -125,6 +189,10 @@
                     onclick="createmodal()">
                 Add Patient
             </button>
+            <button class="btn export" title="Export" id="export" style="margin-left:40px"><span class="glyphicon glyphicon-export"></span></button>
+            <i class="btn print bi bi-printer" title="Print" id="print"></i>
+            <i class="btn pdf bi bi-filetype-pdf" title="View/Save as PDF" id="pdf"></i>
+            <i class="btn excel bi bi-file-earmark-excel" title="Save as Excel" id="excel"></i>
         </div>
     </div>
 

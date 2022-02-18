@@ -37,3 +37,44 @@ input::-webkit-inner-spin-button {
     margin-left: 12px;
     margin-right: 12px;
 }
+.excel {
+    font-size: 23px !important;
+    color: forestgreen !important;
+}
+
+    .excel:hover, .excel:active {
+        color: darkgreen;
+    }
+
+.pdf {
+    font-size: 23px !important;
+    color: red !important;
+}
+
+    .pdf:hover, .pdf:active {
+        color: darkred;
+    }
+
+.export {
+    font-size: 15px;
+    font-style: oblique;
+    margin-bottom: -3px !important;
+    color: white !important;
+    border-radius: 10px;
+    align-content: center;
+    background-color: darkslategrey !important;
+    border-color: black;
+}
+
+    .export:hover, .export:active {
+        color: white;
+    }
+
+.print {
+    font-size: 23px !important;
+    color: blue !important;
+}
+
+    .print:hover, .print:active {
+        color: darkblue;
+    }
