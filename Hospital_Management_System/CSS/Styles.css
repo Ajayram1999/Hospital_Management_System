@@ -37,44 +37,30 @@ input::-webkit-inner-spin-button {
     margin-left: 12px;
     margin-right: 12px;
 }
-.excel {
-    font-size: 23px !important;
-    color: forestgreen !important;
-}
-
-    .excel:hover, .excel:active {
-        color: darkgreen;
-    }
-
-.pdf {
-    font-size: 23px !important;
-    color: red !important;
-}
-
-    .pdf:hover, .pdf:active {
-        color: darkred;
-    }
-
-.export {
-    font-size: 15px;
-    font-style: oblique;
-    margin-bottom: -3px !important;
-    color: white !important;
-    border-radius: 10px;
-    align-content: center;
-    background-color: darkslategrey !important;
-    border-color: black;
-}
-
-    .export:hover, .export:active {
-        color: white;
-    }
 
 .print {
-    font-size: 23px !important;
-    color: blue !important;
+    margin-left:35px !important;
+    margin-top:5px;
+    background-size:5px !important;
+}
+.print:hover,.print:active{
+    color:whitesmoke !important;
 }
 
-    .print:hover, .print:active {
-        color: darkblue;
+    .dropdown-toggle{
+        margin-top:5px;
+        margin-left:-5px !important;
     }
+        .dropdown-toggle:hover, .dropdown-toggle:active {
+            color: whitesmoke !important;
+        }
+.dropdown-menu {
+    min-width: 136px !important;
+    margin-left:85px !important;
+}
+.pdf {
+    cursor: pointer;
+}
+.excel {
+    cursor: pointer;
+}

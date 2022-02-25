@@ -8,6 +8,8 @@ using Hospital_Management_System.Models;
 using Hospital_Management_System.Services;
 using Hospital_Library.Enum;
 using Hospital_Library;
+using System.Data;
+using ArrayToPdf;
 
 namespace Hospital_Management_System.Controllers
 {
@@ -157,6 +159,7 @@ namespace Hospital_Management_System.Controllers
                 patientList = patientList.OrderBy(sortColumnName + " " + sortDirection).ToList<Patient>();
 
                 int totalCount = dbhandle.GetCount(SearchValue);
+                
                 return Json(new
                 {
                     data = patientList,
@@ -169,6 +172,31 @@ namespace Hospital_Management_System.Controllers
             {
                 return View();
             }
+        }
+        [HttpGet]
+        public ActionResult Print()
+        {
+
+            DBHandle objdbhandle = new DBHandle();
+            List<Patient> patientList = objdbhandle.PrintAll();
+
+            var table = new DataTable("Patients Report");
+            table.Columns.Add("Name", typeof(string));
+            table.Columns.Add("Age", typeof(int));
+            table.Columns.Add("Gender", typeof(string));
+            table.Columns.Add("Department", typeof(string));
+            table.Columns.Add("Covid Result", typeof(string));
+            table.Columns.Add("Contact", typeof(string));
+            table.Columns.Add("In-Patient", typeof(bool));
+
+
+            foreach (Patient patient in patientList)
+                table.Rows.Add(patient.Name, patient.Age, patient.Gender, patient.Department, patient.CovidTestResult,patient.Contact,patient.InPatient);
+
+            var pdf = table.ToPdf();
+            System.IO.File.WriteAllBytes(@"C:\Users\user\Desktop\New folder\Ajay\Hospital_Management_System\Hospital_Management_System\PdfViewer\report.pdf", pdf);
+            return PartialView("_Print");
+
         }
     }
 }
