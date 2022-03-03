@@ -37,3 +37,30 @@ input::-webkit-inner-spin-button {
     margin-left: 12px;
     margin-right: 12px;
 }
+
+.print {
+    margin-left:35px !important;
+    margin-top:5px;
+    background-size:5px !important;
+}
+.print:hover,.print:active{
+    color:whitesmoke !important;
+}
+
+    .dropdown-toggle{
+        margin-top:5px;
+        margin-left:-5px !important;
+    }
+        .dropdown-toggle:hover, .dropdown-toggle:active {
+            color: whitesmoke !important;
+        }
+.dropdown-menu {
+    min-width: 136px !important;
+    margin-left:85px !important;
+}
+.pdf {
+    cursor: pointer;
+}
+.excel {
+    cursor: pointer;
+}

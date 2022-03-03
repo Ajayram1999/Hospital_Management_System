@@ -12,7 +12,7 @@ namespace Hospital_Management_System.Services
 {
     public class DBHandle
     {
-        static string connectionstring = "Data Source=ASUSX515;Initial Catalog=Hospital;Integrated Security=True;Pooling=False";
+        static string connectionstring = "Data Source=LAPTOP-5IQ1TLRU;Initial Catalog=Database;Integrated Security=True";
         SqlConnection con = new SqlConnection(connectionstring);
         SqlCommand cmd;
         SqlDataAdapter sda;
@@ -179,6 +179,35 @@ namespace Hospital_Management_System.Services
             {
                throw;
             }
+        }
+        public List<Patient> PrintAll()
+        {
+            cmd = new SqlCommand("PrintAll", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            sda = new SqlDataAdapter(cmd);
+            dt = new DataTable();
+            con.Open();
+            sda.Fill(dt);
+            con.Close();
+
+            List<Patient> list = new List<Patient>();
+            foreach (DataRow dr in dt.Rows)
+            {
+                list.Add(new Patient
+                {
+                    Id = Convert.ToInt32(dr["Id"]),
+                    Name = dr["Name"].ToString(),
+                    Age = Convert.ToInt32(dr["Age"]),
+                    Gender = dr["Gender"].ToString(),
+                    Department = dr["Department"].ToString(),
+                    CovidTestResult = dr["CovidTestResult"].ToString(),
+                    Contact = dr["Contact"].ToString(),
+                    InPatient = Convert.ToBoolean(dr["InPatient"])
+                });
+
+            }
+            return list;
         }
     }
 }

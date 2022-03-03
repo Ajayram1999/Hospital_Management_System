@@ -11,7 +11,7 @@
     body {
         background-repeat: no-repeat;
         background-size: cover;
-        margin-bottom:20px;
+        margin-bottom: 20px;
     }
 
     #hms {
@@ -22,6 +22,7 @@
         font-size: xx-large;
         font-weight: 700;
     }
+
     h3 {
         color: white;
         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -33,23 +34,32 @@
 <script>
     var dataTable;
     $(document).ready(function () {
-        dataTable=$('#myTable').DataTable(
+        dataTable = $('#myTable').DataTable(
             {
                 "processing": true,
                 "serverSide": true,
                 "filter": true,
-                "dom": '<"top"f>rt<"bottom"ilp><"clear">',
-              
-                "scrollY":"380PX",
-                "scrollCollapse":false,
-                
-                "columnDefs": [{  "targets": [1, 2,3, 4, 5, 6, 7], className: 'dt-head-center dt-body-center' },
+                "dom": '<"top"Bf>rt<"bottom"ilp><"clear">',
+                buttons: [
                     {
-                    'targets': [5,7],
+                        extend: 'excel',
+                        title: "Hospital Management System",
+                        autoFilter: true,
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5]
+                        }
+                    }
+                ],
+                "scrollY": "380PX",
+                "scrollCollapse": false,
+
+                "columnDefs": [{ "targets": [1, 2, 3, 4, 5, 6, 7], className: 'dt-head-center dt-body-center' },
+                {
+                    'targets': [5, 7],
                     'orderable': false,
                 }],
-           
-            
+
+
 
 
                 "ajax": {
@@ -61,20 +71,20 @@
                     {
                         "data": "Name",
                         "name": "Name",
-                        "width": "17%",
+                        "width": "15%",
 
-                      
+
                     },
                     {
                         "data": "Age",
                         "name": "Age",
-                        "width": "7%",
+                        "width": "3%",
 
                     },
                     {
                         "data": "Gender",
                         "name": "Gender",
-                        "width": "10%",
+                        "width": "8%",
 
                     },
                     {
@@ -85,8 +95,8 @@
                     },
                     {
                         "data": "CovidTestResult",
-                        "CovidTestResult": "Name",
-                        "width": "16%",
+                        "name": "CovidTestResult",
+                        "width": "18%",
 
                     },
                     {
@@ -99,7 +109,7 @@
                         "data": "InPatient",
                         "name": "InPatient",
                         "type": "bool",
-                        "width":"11%",
+                        "width": "15%",
                         "render": function (value) {
                             if (value === true) return "Yes";
                             else return "No";
@@ -107,8 +117,8 @@
                     },
                     {
                         "data": "Id",
-                        "width":"40%",
-                        "render": function (data,type,full,meta) {
+                        "width": "11%",
+                        "render": function (data, type, full, meta) {
 
                             return '<a class="blue" title="View" onclick="viewPatient(' + full.Id + ')" ><span class="glyphicon glyphicon-eye-open"></span></a> <a class="Yellow space" title="Edit" onclick="viewEdit(' + full.Id + ')"><span class="glyphicon glyphicon-pencil"></span></a>  <a class="Red" title="Delete" onclick="viewdelete(' + full.Id + ')"><span class="glyphicon glyphicon-trash"></span></a>';
                         }
@@ -116,7 +126,38 @@
                 ]
             });
     });
+    $(document).on('click', '#excel', function () {
+        var info = dataTable.page.info();
+        pageLength = info.length;
+        dataTable.page.len(info.recordsTotal).draw();
+        setTimeout(excel, 1000);
+        //$.get("/Patients/Print/excel", function (res) {
+        //    console.log(res);
+        //});
+    });
+    function excel() {
+        $(".buttons-excel")[0].click();
+        current();
+    }
+    function current() {
+        dataTable.page.len(pageLength).draw();
+    }
+    $(document).on('click', '#pdf', function () {
+        $.get("/Patients/Print/pdf", function (res) {
+            $("#printbody").html(res);
+            $('#printmodal').modal('show');
+        });
+    })
 
+    function printDiv() {
+        $.get("/Patients/Print/pdf", function (res) {
+            $("#printbody").html(res);
+            $('#printmodal').modal('show');
+            window.frames["pdf_frame"].window.focus();
+            window.frames["pdf_frame"].window.print();
+        });
+    }
+    
 </script>
 <p>
     <div style="padding-left:0rem">
@@ -125,6 +166,18 @@
                     onclick="createmodal()">
                 Add Patient
             </button>
+
+            <div class="btn-group">
+                <button class="btn btn-dark print" onclick="printDiv()">Print</button>
+
+                <button type="button" class="btn btn-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu">
+                    <span class="pdf dropdown-item" id="pdf">View/Save as PDF</span>
+                    <span class="excel dropdown-item" id="excel">Save as Excel</span>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -158,6 +211,7 @@
 </div>
 
 <script>
+
     function createmodal() {
         console.log("create");
         $.get("/Patients/Create", { ActionType: "Add" }, function (result) {
@@ -171,14 +225,14 @@
     function createPatient() {
         var modal = $("#datamodal");
         var form = $('form[name="addform"]');
-       var name= validatename();
-       var age= validateage();
-       var contact= validatecontact();
+        var name = validatename();
+        var age = validateage();
+        var contact = validatecontact();
         validategender();
         validatedepartment();
-         validateresult();
+        validateresult();
         var data = form.serialize();
-        if (name && age && contact ) {
+        if (name && age && contact) {
             $.post("/Patients/Create", data, function (res) {
                 if (res) {
                     toastr.options = {
@@ -199,15 +253,15 @@
                     }
                     toastr["success"]("Patient added successfully!")
 
-                   
+
                     modal.modal('hide');
-                    dataTable.ajax.reload(null,false);
+                    dataTable.ajax.reload(null, false);
                 }
             })
         }
     }
     function viewPatient(id) {
-        $.get("/Patients/Edit", { operation:"Edit",id:id }, function (result) {
+        $.get("/Patients/Edit", { operation: "Edit", id: id }, function (result) {
             $('#datamodalbody').html(result);
             $('#datamodal').modal('show');
             $('.disable').attr('disabled', true);
@@ -215,10 +269,8 @@
             document.getElementById("btnSave").disabled = true;
             $('#btnEdit').show();
             $('#btnSave').hide();
-
         })
     }
-
     function viewEdit(id) {
         $.get("/Patients/Edit", { operation: "Edit", id: id }, function (result) {
             $('#datamodalbody').html(result);
@@ -227,18 +279,13 @@
             addsave.style.display = "none";
             document.getElementById("btnSave").disabled = false;
             $('#btnEdit').hide();
-
         })
     }
-
     function editPatient() {
         $('.disable').attr('disabled', false);
         document.getElementById("btnSave").disabled = false;
         $('#btnSave').show();
         $('#btnEdit').hide();
-        
-
-
     }
     function updatePatient() {
         var modal = $("#datamodal");
@@ -252,7 +299,7 @@
         validateresult();
         if (name && age && contact) {
             $.post("/Patients/Edit", data, function (res) {
-                if (res) {                  
+                if (res) {
                     toastr.options = {
                         "closeButton": true,
                         "newestOnTop": false,
@@ -272,7 +319,7 @@
                     toastr["success"]("Patient updated successfully!")
 
                     $("#datamodal").modal('hide');
-                    dataTable.ajax.reload(null,false);
+                    dataTable.ajax.reload(null, false);
                 }
             })
         }
@@ -281,7 +328,7 @@
         $.get("/Patients/Delete", { id: id }, function (res) {
             if (res) {
                 $('#datamodalbody').html(res);
-            $('#datamodal').modal('show');
+                $('#datamodal').modal('show');
             }
         })
     }
@@ -310,15 +357,35 @@
                 toastr["error"]("Patient deleted successfully!")
 
                 modal.modal('hide');
-               dataTable.ajax.reload(null,false);
+                dataTable.ajax.reload(null, false);
             }
         })
     }
+    $(document).keydown(function (event) {
+        if (event.keyCode == 27) {
+            $('#close')[0].click();
+        }
+    });
 </script>
 <div class="modal fade" id="datamodal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog " role="document">
         <div class="modal-content" id="datamodalbody">
 
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="printmodal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="printModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="margin-left:57px" role="document">
+
+        <div class="modal-content" style="width:245%" id="printmodalcontent">
+            <div class="modal-header">
+                <h4 class="modal-title" id="printModalLabel" style="padding-left:520px;color:black">Patients Report</h4>
+                <button type="button" style="padding-left:524px" class="close" data-dismiss="modal" id="close" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="printbody">
+            </div>
         </div>
     </div>
 </div>
