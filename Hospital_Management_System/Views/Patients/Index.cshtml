@@ -167,13 +167,13 @@
                 Add Patient
             </button>
 
-            <div class="btn-group">
-                <button class="btn btn-dark print" onclick="printDiv()">Print</button>
+            <div class="btn-group" >
+                <button class="btn btn-dark print" style="background-color: black; color: white"  onclick="printDiv()">Print</button>
 
-                <button type="button" class="btn btn-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="sr-only">Toggle Dropdown</span>
+                <button type="button" class="btn btn-dark dropdown-toggle dropdown-toggle-split" style="background-color:black; color: white; height:34px" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="glyphicon glyphicon-chevron-down"></span>
                 </button>
-                <div class="dropdown-menu">
+                <div class="dropdown-menu" style="color: black;" >
                     <span class="pdf dropdown-item" id="pdf">View/Save as PDF</span>
                     <span class="excel dropdown-item" id="excel">Save as Excel</span>
                 </div>
@@ -374,13 +374,13 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="printmodal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="printModalLabel" aria-hidden="true">
-    <div class="modal-dialog" style="margin-left:57px" role="document">
+<div class="modal fade bd-example-modal-lg" id="printmodal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="printModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="margin-left: 3%; margin-right: 3%" role="document">
 
-        <div class="modal-content" style="width:245%" id="printmodalcontent">
+        <div class="modal-content" style="width:145%" id="printmodalcontent">
             <div class="modal-header">
-                <h4 class="modal-title" id="printModalLabel" style="padding-left:520px;color:black">Patients Report</h4>
-                <button type="button" style="padding-left:524px" class="close" data-dismiss="modal" id="close" aria-label="Close">
+                <h4 class="modal-title" id="printModalLabel" style="padding-left:500px;color:black">Patients Report</h4>
+                <button type="button" style="padding-left:500px" class="close" data-dismiss="modal" id="close" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

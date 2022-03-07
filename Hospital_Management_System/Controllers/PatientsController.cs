@@ -200,7 +200,8 @@ namespace Hospital_Management_System.Controllers
                     table.Rows.Add(patient.Name, patient.Age, patient.Gender, patient.Department, patient.CovidTestResult, patient.Contact, patient.InPatient);
 
                 var pdf = table.ToPdf();
-                System.IO.File.WriteAllBytes(@"C:\Users\user\Desktop\New folder\Ajay\Hospital_Management_System\Hospital_Management_System\PdfViewer\report.pdf", pdf);
+                System.IO.File.WriteAllBytes(@"C:\Users\user\source\repos\Ajay_Hospital\Hospital_Management_System\Hospital_Management_System\PdfViewer\report.pdf", pdf);
+               // System.IO.File.WriteAllBytes(@"C:\Users\user\Desktop\New folder\Ajay\Hospital_Management_System\Hospital_Management_System\PdfViewer\report.pdf", pdf);
             }
             //else if (format == "excel")
             //{
