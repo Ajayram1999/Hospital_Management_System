@@ -12,8 +12,8 @@ namespace Hospital_Management_System.Services
 {
     public class DBHandle
     {
-        static string connectionstring = "Data Source=LAPTOP-FCT3Q2DO;Initial Catalog=Patients;Integrated Security=True";
-        //        static string connectionstring = "Data Source=LAPTOP-5IQ1TLRU;Initial Catalog=Database;Integrated Security=True";
+        static string connectionstring = "Data Source=DESKTOP-BC5TS1F\\MSSQLSERVER2019;Initial Catalog=Patients;Integrated Security=True";
+        // static string connectionstring = "Data Source=LAPTOP-5IQ1TLRU;Initial Catalog=Database;Integrated Security=True";
         SqlConnection con = new SqlConnection(connectionstring);
         SqlCommand cmd;
         SqlDataAdapter sda;

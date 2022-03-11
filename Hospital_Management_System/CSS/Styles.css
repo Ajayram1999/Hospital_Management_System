@@ -17,7 +17,7 @@ input::-webkit-inner-spin-button {
     margin-left: 25px;
 }
 .dataTables_scrollBody {
-    overflow-x: hidden !important;
+    overflow-x: auto !important;
     overflow-y: auto !important;
 }
 .blue{
@@ -34,8 +34,8 @@ input::-webkit-inner-spin-button {
     display:none;
 }
 .space {
-    margin-left: 12px;
-    margin-right: 12px;
+    margin-left:5%;
+    margin-right: 5%;
 }
 
 .print {

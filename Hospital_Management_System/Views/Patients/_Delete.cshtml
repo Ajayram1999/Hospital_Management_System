@@ -1,21 +1,13 @@
 ﻿@model Hospital_Management_System.Models.Patient
 <form id="dataDemo" name="delete">
+
     <div class="modal-header">
-        <div style="padding-left:5rem">
+        <button type="button" style="text-align:right" class="close" data-dismiss="modal" id="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="ViewModalLabel" style="text-align:center;color:black">ARE YOU SURE WANT TO DELETE</h4>
 
-            <h1 class="modal-title" id="ViewModalLabel">ARE YOU SURE WANT TO DELETE </h1></div>
-
-            <div style="padding-left:9rem">
-                <button type="button" style="color:black"  class="close" data-dismiss="modal" id="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>
-            <style>
-                #ViewModalLabel {
-                    font-size: large;
-                    color: black;
-                }
-                
-            </style>
-        </div>
+    </div>
     <div class="modal-body" style=" color: white; background-color: black;">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
@@ -33,7 +25,7 @@
             @Html.LabelFor(model => model.Gender, "Gender", htmlAttributes: new { @class = "control-label col-md-2" })
             @Html.DisplayFor(model => model.Gender, new { htmlAttributes = new { @class = "control-label col-md-2" } })
         </div>
-       
+
 
         <div class="form-group">
             @Html.LabelFor(model => model.Contact, "Contact", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -42,8 +34,8 @@
 
 
     </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-danger" onclick="DeletePatient()">Yes</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" style="width:50px;">No</button>
-        </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" onclick="DeletePatient()">Yes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" style="width:50px;">No</button>
+    </div>
 </form>

@@ -1,0 +1,2635 @@
+
+@{
+    ViewData["Title"] = "AgreementCompany";
+    Layout = "~/Views/Shared/DashboardView.cshtml";
+}
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="manifest" href="/manifest.json">
+<head>
+    <style>
+        .card .card-body .stylenav {
+            padding: .0rem;
+        }
+
+        .ulstyle {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            border: 0px solid #e7e7e7;
+            /*background-color: #f3f3f3;*/
+            font-size: 12px;
+        }
+
+        .listyle {
+            float: left;
+            margin-bottom: 0px;
+        }
+
+            .listyle button {
+                display: block;
+                color: #666;
+                text-align: center;
+                padding: 14px 2px;
+                text-decoration: none;
+                border: wheat;
+                width: 200px;
+            }
+
+                .listyle button:hover:not(.aactive) {
+                    background-color: #ddd;
+                }
+
+                .listyle button.aactive {
+                    color: white;
+                    background-color: #0474aa;
+                }
+    </style>
+    <style>
+        #tags {
+            float: left;
+            border: 1px solid #ccc;
+            padding: 5px;
+            font-family: Arial;
+        }
+
+            #tags > span {
+                cursor: pointer;
+                display: block;
+                float: left;
+                color: #fff;
+                background: #789;
+                padding: 5px;
+                padding-right: 25px;
+                margin: 4px;
+            }
+
+                #tags > span:hover {
+                    opacity: 0.7;
+                }
+
+                #tags > span:after {
+                    position: absolute;
+                    content: "×";
+                    border: 1px solid;
+                    padding: 2px 5px;
+                    margin-left: 3px;
+                    font-size: 11px;
+                }
+
+            #tags > input {
+                background: #eee;
+                border: 0;
+                margin: 4px;
+                padding: 7px;
+                width: auto;
+            }
+    </style>
+</head>
+
+<div class="container-fluid">
+    <div class="card mb-1">
+        <div class="card-body stylenav ">
+            <div style=" font-size: clamp(10px, 2vw, 20px);" class="text-responsive">
+                <ul class="ulstyle">
+                    <li class="listyle"><button class="aactive" id="viewmve" onclick="viewmovieDiv()" style="width:9rem;">Movie</button></li>
+                    <li class="listyle"><button id="cmplx" onclick="viewcomplexDiv()" style="width:9rem;">Complex</button></li>
+                    <li class="listyle"><button id="scrng" onclick="viewScreeningTermsDiv()" style="width:9rem;">ScreeningTerms</button></li>
+                    <li class="listyle"><button id="termsc" onclick="viewTermsAndConditionsDiv()" style="width:9rem;">TermsAndConditions</button></li>
+                    <li class="listyle"><button id="termsdiv" onclick="viewAdditionalTermsDiv()" style="width:9rem;">AdditionalTerms</button></li>
+                    <li class="listyle"><button id="viwprv" onclick="viewPreview()" style="width:9rem;">Preview</button></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-4" id="moviediv" style="display:none">
+    <div class="card-body">
+        <h5 class="mb-4">MOVIE DETAILS</h5>
+        <form>
+            <div class="form-row">
+                <div class="form-group row col-md-6">
+                    <label for="inputPassword3" class="col-sm-4 col-form-label">Movie Name</label>
+                    <div class="col-sm-8">
+                        <span>
+                            @Html.DropDownList("Movie_id", (IEnumerable<SelectListItem>)ViewBag.Movie_id, ("----Select-----"), new { @class = "form-control" })
+                        </span>
+                        <input type="hidden" id="Movie_title" />
+                    </div>
+                </div>
+                <div class="form-group row col-md-6">
+                    <label for="inputPassword3" class="col-sm-4 col-form-label">Banner</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="Movie_banner" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group row col-md-6">
+                    <label for="inputPassword3" class="col-sm-4 col-form-label">Starcast</label>
+                    <div class="col-sm-8">
+                        <input type="hidden" class="form-control" id="Movie_starcast" />
+                        <div id="tags">
+                            <input type="text" value="" placeholder="Add a tag" id="starcast"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row col-md-6">
+                    <label for="inputPassword3" class="col-sm-4 col-form-label">Release date</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="Release_Date" style="text-align:left;font-size:12px;width:40%;padding:3px;" class="datepicker" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group row col-md-6">
+                    <label for="inputPassword3" class="col-sm-4 col-form-label">Distributor Name</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="Movie_distributor" />
+                    </div>
+                </div>
+                <div class="form-group row col-md-6">
+                    <label for="inputPassword3" class="col-sm-4 col-form-label">Distributor Email</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="Distributor_EmailId" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group row col-md-6">
+                    <label for="inputPassword3" class="col-sm-4 col-form-label">Account Name</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="Account_Name" />
+                    </div>
+                </div>
+                <div class="form-group row col-md-6">
+                    <label for="inputPassword3" class="col-sm-4 col-form-label">Account No.</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="Account_No" />
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-row">
+                <div class="form-group row col-md-6">
+                    <label for="inputPassword3" class="col-sm-4 col-form-label">Bank Name</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="Bank_Name" />
+                    </div>
+                </div>
+                <div class="form-group row col-md-6">
+                    <label for="inputPassword3" class="col-sm-4 col-form-label">IFSC Code</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="IFSC_Code" />
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-row">
+                <div class="form-group row col-md-6">
+                    <label for="inputPassword3" class="col-sm-4 col-form-label">Period of Run</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="Period_Run" />
+                    </div>
+                </div>
+                <div class="form-group row col-md-6">
+                    <label for="inputPassword3" class="col-sm-4 col-form-label">Booking Through</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" value="Direct" id="Booking_Through" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group row col-md-6">
+                    <label for="inputPassword3" class="col-sm-4 col-form-label">Advance Type</label>
+                    <div class="col-sm-8">
+                        <div class="col-sm-8" style="padding-left:0px!important">
+                            <select id="Advance_Type" class="form-control">
+                                <option id="Refundable" value="Refundable">Refundable</option>
+                                <option id="minGuarantee" value="minGuarantee">Minimum Guarantee</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-group col-md-6">
+                    <div class="input-group mb-2 mr-sm-2">
+                        <button type="button" class="btn btn-outline-primary rounded active mt-3" style="font-size: 12px; width: 11%;" id="btnsave" onclick="setMovietable()">Add</button>
+                        &nbsp;
+                        <button type="button" class="btn btn-primary rounded mt-3" name="Cancel" value="Cancel" onclick="goToList()" style="background-color: gray; border-color: gray; font-size: 12px;width:11%;">Back</button>
+                    </div>
+                </div>
+            </div>
+            <table id="movietable" style="display:none;">
+                <thead>
+                    <tr>
+                        <th>
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+        </form>
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <table class="table table-hover" id="tblmovietable">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="display:none">Movieid</th>
+                            <th scope="col">Movie</th>
+                            <th scope="col">Banner</th>
+                            <th scope="col">ReleaseDate</th>
+                            <th style="width:30%">Options</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="card mb-4" id="complexDiv" style="display:none">
+    <div class="card-body">
+        <h5 class="mb-4">COMPLEX LIST</h5>
+        <div class="card">
+            <table class="table table-hover" id="tblListComplex">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col" class="d-none d-sm-table-cell">No</th>
+                        <th scope="col" class="d-none d-sm-table-cell">District</th>
+                        <th scope="col">Complex Name</th>
+                        <th scope="col">Station</th>
+                        <th scope="col">Advance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+
+            </table>
+            <table id="complextable" style="display:none;">
+                <thead>
+                    <tr>
+                        <th>
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+            <div class="row view-pager">
+                <div class="col-sm-12">
+                    <div class="text-center">
+                        <div class="dataTables_paginate paging_simple_numbers responsive">
+                            <ul class="pagination pagination-sm" style="justify-content:center">
+                                <li class="paginate_button page-item previous responsive">
+                                    <a href="#" id="previousbutton" class="page-link prev">
+                                        <i class="simple-icon-arrow-left" align="left"></i> Previous
+                                    </a>
+                                </li>
+                                <li class="paginate_button page-item responsive">
+                                    <label align="center" class="page-link">Page No &nbsp;</label>
+                                    @Html.TextBox("Pagenumber", (string)ViewBag.pagenumber, new { @id = "Pagenumber", @onchange = "onchangeevent(this);this.oldvalue = this.value;", style = "width: 30px; text-align: center;margin-left:15px;", @onfocus = "this.oldvalue = this.value;" }) &nbsp;of&nbsp; @Html.TextBox("Pagecount", (string)ViewBag.total, new { @id = "Pagecount", style = "border: inherit;width:30px;", @class = "an_pageCount" })
+                                </li>
+                                <li class="paginate_button page-item next responsive">
+                                    <a href="#" id="nextbutton" class="page-link next" area-controls="DataTables_Table_0" data-dt-idx="6">Next <i class="simple-icon-arrow-right" align="right"></i> </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label><b>Complex Name</b></label>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <input type="text" class="form-control" id="nametxt" readonly />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label><b>Station</b></label>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <input type="text" class="form-control" id="stationtxt" readonly />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label><b>Advance</b></label>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <input type="number" class="form-control" id="advancetxt" onKeyPress="if(this.value.length==8) return false;" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer ">
+                <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal">
+                    Back
+                </button>
+                <input type="hidden" id="Complex_id" />
+                <input type="hidden" id="Pageno" />
+                <button type="button" class="btn btn-primary" id="btnupdateAdavnce" onclick="updateAdvance()">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label><b>Screening Term</b></label>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <input type="text" class="form-control" id="screeningterm" readonly/>
+                         @*<label class="form-control" id="screeningterm"></label>*@
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label><b>Percentage</b></label>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <input type="number" class="form-control" id="percent" onKeyPress="if(this.value.length==3) return false;" />
+                    </div>
+                </div>               
+            </div>
+            <div class="modal-footer ">
+                <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal">
+                    Back
+                </button>
+                <input type="hidden" id="ScreeningTerms_Id" />
+                <input type="hidden" id="Pageno" />
+                <button type="button" class="btn btn-primary" id="btnupdatePercentage" onclick="updatePercentage()">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card mb-4" id="ScreeningTermsDiv" style="display:none">
+    <div class="card-body">
+        <h5 class="mb-4">SCREENING TERMS</h5>
+        <div class="card">
+            <table class="table table-hover" id="tblListScreeningTerm">
+                <thead>
+                    <tr>
+                        <th scope="col" style="width:5%"></th>
+                        <th scope="col" style="width:7%">No</th>
+                        <th scope="col" style="width:58%">Screening Term</th>
+                        <th scope="col" style="width:30%">Percentage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+
+            </table>
+            <table id="screeningtermtable" style="display:none;">
+                <thead>
+                    <tr>
+                        <th>
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+            <div class="row view-pager">
+                <div class="col-sm-12">
+                    <div class="text-center">
+                        <div class="dataTables_paginate dataTables_paginate1 paging_simple_numbers responsive">
+                            <ul class="pagination pagination-sm" style="justify-content:center">
+                                <li class="paginate_button page-item previous responsive">
+                                    <a href="#" id="previousbutton1" class="page-link prev">
+                                        <i class="simple-icon-arrow-left" align="left"></i> Previous
+                                    </a>
+                                </li>
+                                <li class="paginate_button page-item responsive">
+                                    <label align="center" class="page-link">Page No &nbsp;</label>
+                                    @Html.TextBox("Pagenumber1", (string)ViewBag.pagenumber, new { @id = "Pagenumber1", @onchange = "onchangeevent1(this);this.oldvalue = this.value;", style = "width: 30px; text-align: center;margin-left:15px;", @onfocus = "this.oldvalue = this.value;" }) &nbsp;of&nbsp; @Html.TextBox("Pagecount1", (string)ViewBag.total1, new { @id = "Pagecount1", style = "border: inherit;width:30px;", @class = "an_pageCount" })
+                                </li>
+                                <li class="paginate_button page-item next responsive">
+                                    <a href="#" id="nextbutton1" class="page-link next" area-controls="DataTables_Table_0" data-dt-idx="6">Next <i class="simple-icon-arrow-right" align="right"></i> </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="card mb-4" id="TermsAndConditionsDiv" style="display:none">
+    <div class="card-body">
+        <h5 class="mb-4">TERMS AND CONDITIONS</h5>
+        <div class="card">
+            <table class="table table-hover" id="tblListStandardTerm">
+                <thead>
+                    <tr>
+                        <th scope="col" style="width:7%"></th>
+                        <th scope="col" style="width:7%">No</th>
+                        <th scope="col" style="width:60%">Terms And Conditions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+
+            </table>
+            <table id="termstandconditionstable" style="display:none;">
+                <thead>
+                    <tr>
+                        <th>
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+            <div class="row view-pager">
+                <div class="col-sm-12">
+                    <div class="text-center">
+                        <div class="dataTables_paginate dataTables_paginate2 paging_simple_numbers responsive">
+                            <ul class="pagination pagination-sm" style="justify-content:center">
+                                <li class="paginate_button page-item previous responsive">
+                                    <a href="#" id="previousbutton2" class="page-link prev">
+                                        <i class="simple-icon-arrow-left" align="left"></i> Previous
+                                    </a>
+                                </li>
+                                <li class="paginate_button page-item responsive">
+                                    <label align="center" class="page-link">Page No &nbsp;</label>
+                                    @Html.TextBox("Pagenumber2", (string)ViewBag.pagenumber1, new { @id = "Pagenumber2", @onchange = "onchangeevent2(this);this.oldvalue = this.value;", style = "width: 30px; text-align: center;margin-left:15px;", @onfocus = "this.oldvalue = this.value;" }) &nbsp;of&nbsp; @Html.TextBox("Pagecount2", (string)ViewBag.total1, new { @id = "Pagecount2", style = "border: inherit;width:30px;", @class = "an_pageCount" })
+                                </li>
+                                <li class="paginate_button page-item next responsive">
+                                    <a href="#" id="nextbutton2" class="page-link next" area-controls="DataTables_Table_0" data-dt-idx="6">Next <i class="simple-icon-arrow-right" align="right"></i> </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="card mb-4" id="AdditionalTermsDiv" style="display:none">
+    <div class="card-body">
+        <h5 class="mb-4">ADDITIONAL TERMS</h5>
+        <div class="card">
+            <table class="table table-hover" id="tblListAdditionalTerm">
+                <thead>
+                    <tr>
+                        <th scope="col" style="width:7%"></th>
+                        <th scope="col" style="width:7%">No</th>
+                        <th scope="col" style="width:60%">Additional Terms</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+
+            </table>
+            <table id="additionaltermstable" style="display:none;">
+                <thead>
+                    <tr>
+                        <th>
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+            <div class="row view-pager">
+                <div class="col-sm-12">
+                    <div class="text-center">
+                        <div class="dataTables_paginate dataTables_paginate3 paging_simple_numbers responsive">
+                            <ul class="pagination pagination-sm" style="justify-content:center">
+                                <li class="paginate_button page-item previous responsive">
+                                    <a href="#" id="previousbutton3" class="page-link prev">
+                                        <i class="simple-icon-arrow-left" align="left"></i> Previous
+                                    </a>
+                                </li>
+                                <li class="paginate_button page-item responsive">
+                                    <label align="center" class="page-link">Page No &nbsp;</label>
+                                    @Html.TextBox("Pagenumber3", (string)ViewBag.pagenumber1, new { @id = "Pagenumber3", @onchange = "onchangeevent3(this);this.oldvalue = this.value;", style = "width: 30px; text-align: center;margin-left:15px;", @onfocus = "this.oldvalue = this.value;" }) &nbsp;of&nbsp; @Html.TextBox("Pagecount3", (string)ViewBag.total1, new { @id = "Pagecount3", style = "border: inherit;width:30px;", @class = "an_pageCount" })
+                                </li>
+                                <li class="paginate_button page-item next responsive">
+                                    <a href="#" id="nextbutton3" class="page-link next" area-controls="DataTables_Table_0" data-dt-idx="6">Next <i class="simple-icon-arrow-right" align="right"></i> </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="card mb-4" id="PreviewDiv" style="display:none">
+    <div class="card-body">
+        <h5 class="mb-4">PREVIEW</h5>
+        <div class="card">
+            <div class="row">
+                <div class="col-md-12" style="padding-left:17px;padding-right:17px;">
+                    <div class="panel panel-primary" style="margin-top:-20px;">
+                        <div class="panel-body" style="padding-left:0px;padding-right:0px;padding-bottom:5px;">
+                            <div class="images-preloader" id="images-preloader1">
+                                <div class="loader"></div>
+                            </div>
+                            <div id="iframe_loadDiv" style="display:none;">
+                                <p style="text-align:center;"><b>Loading......</b></p>
+                            </div>
+                            <div class="">
+                                <div class="col-md-12" style="padding-left:0px;padding-right:0px;margin-top:-20px;">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                    <div id="iframeshow" style="height:600px;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="col-md-12" style="padding-left: 25px;padding-right:0px;">
+                            <div id="data2" style="margin-top: -20px !important;">
+                                <div class="form-group">
+                                    <div class="an-save-can-draft">
+                                        <br />
+                                        <button type="button" class="btn btn-primary waves-effect waves-light" id="btcancel" onclick="clearform();" style="width:6%;">Cancel</button>
+                                        <button type="button" class="btn btn-primary waves-effect waves-light" id="btnfinalsave" onclick="saveDownloadPreview(1)" style="width:6%;">Save</button>
+                                        <button type="button" class="btn btn-primary waves-effect waves-light" id="btnfinalsavedwnld" onclick="saveDownloadPreview(2)">Save & Download</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="~/assets/js/jquery.min.js"></script>
+<script src="~/assets/datatables/jquery.dataTables.min.js"></script>
+<script>
+    var theatergroupid = '@ViewData["theatergroupid"].ToString()';
+    var agreementId = '@ViewData["agreementId"].ToString()';
+    var PageType = '@ViewData["PageType"].ToString()';
+
+    var samplemovietable = "";
+    samplemovietable = $('#movietable').DataTable({
+        "paging": false,
+        "ordering": false,
+        "info": false,
+        "searching": false
+    });
+    var samplecomplextable = "";
+    samplecomplextable = $('#complextable').DataTable({
+        "paging": false,
+        "ordering": false,
+        "info": false,
+        "searching": false
+    });
+    var samplescreeningtermtable = "";
+    samplescreeningtermtable = $('#screeningtermtable').DataTable({
+        "paging": false,
+        "ordering": false,
+        "info": false,
+        "searching": false
+    });
+    var samplestandardtermtable = "";
+    samplestandardtermtable = $('#termstandconditionstable').DataTable({
+        "paging": false,
+        "ordering": false,
+        "info": false,
+        "searching": false
+    });
+    var sampleadditionaltermstable = "";
+    sampleadditionaltermstable = $('#additionaltermstable').DataTable({
+        "paging": false,
+        "ordering": false,
+        "info": false,
+        "searching": false
+    });
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //january is 0!
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+    var relaeseDate = dateconvertion(dd, mm, yyyy);
+
+    $(document).ready(function () {
+
+        // ::: TAGS BOX
+        $("#tags input").on({
+            focusout: function () {
+                var txt = this.value.replace(/[^a-z0-9\+\-\.\#]/ig, ''); // allowed characters
+                if (txt) $("<span/>", { text: txt.toLowerCase(), insertBefore: this });
+                this.value = "";
+            },
+            keyup: function (ev) {
+                // if: comma|enter (delimit more keyCodes with | pipe)
+                if (/(188|13)/.test(ev.which)) $(this).focusout();
+            }
+        });
+        $('#tags').on('click', 'span', function () {
+            $(this).remove();
+        });
+
+
+        $(".datepicker").datepicker({
+            format: 'dd-mm-yyyy',
+            autoclose: true,
+            orientation: "bottom left"
+        });
+
+        samplemovietable.clear();
+        samplecomplextable.clear();
+        samplescreeningtermtable.clear();
+        samplestandardtermtable.clear();
+        sampleadditionaltermstable.clear();
+       /* SetMoviediv(mvid);*/
+        $('#complexDiv').hide();
+        $('#ScreeningTermsDiv').hide();
+        $('#TermsAndConditionsDiv').hide();
+        $('#AdditionalTermsDiv').hide();
+        $('#PreviewDiv').hide();
+        $('#moviediv').show();
+
+        $("ul.ulstyle > li > button").click(function (e) {
+            $("ul.ulstyle > li > button").removeClass("aactive");
+            $(this).addClass("aactive");
+        });
+        if (PageType == "edit") {
+            debugger
+              $.ajax({
+                type: "GET",
+                async: false,
+                url: '@Url.Action("GetAllAgreementMovies", "agreement")',
+                data: { "agreementId": agreementId},
+                dataType: "json",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                success: function (data) {
+                    debugger
+                    if (data !== "<") {
+                        for (var i = 0; i < data.length; i++) {
+                            var samplemoviedata = [];
+                            samplemoviedata.push(data[i].movieId);
+                            samplemoviedata.push(data[i].movie_Name);
+                            samplemoviedata.push(data[i].movie_Banner);
+                            samplemoviedata.push(data[i].movie_starcast);
+                            samplemoviedata.push(data[i].account_Name);
+                            samplemoviedata.push(data[i].account_No);
+                            samplemoviedata.push(data[i].bank_Name);
+                            samplemoviedata.push(data[i].ifsC_Code);
+                            samplemoviedata.push(data[i].bookingThrough);
+                            samplemoviedata.push(data[i].periodOfRun);
+                            samplemoviedata.push(data[i].distributor_EmailId);
+                            samplemoviedata.push(data[i].movie_distributor);
+                            samplemoviedata.push(data[i].advance_Type);
+                            debugger
+                            var rDate = data[i].releaseDate;
+                            var rDateArray = rDate.split("-");
+                            relaeseDate = dateconvertion(rDateArray[0], rDateArray[1], rDateArray[2]);
+                            samplemoviedata.push(relaeseDate);
+                            samplemovietable.row.add(samplemoviedata);
+                            samplemovietable.draw();
+                            if (i == 0) {
+                                debugger
+                                $('#Movie_id').val(data[i].movieId);
+                                $('#Movie_title').val(data[i].movie_Name);
+                                $('#Movie_banner').val(data[i].movie_Banner);
+                                $('#Movie_starcast').val(data[i].movie_starcast);
+                                $('#Account_Name').val(data[i].account_Name);
+                                $('#Account_No').val(data[i].account_No);
+                                $('#Bank_Name').val(data[i].bank_Name);
+                                $('#IFSC_Code').val(data[i].ifsC_Code);
+                                $('#Booking_Through').val(data[i].bookingThrough);
+                                $('#Period_Run').val(data[i].periodOfRun);
+                                $('#Release_Date').datepicker('setDate', relaeseDate);
+                                $("#Distributor_EmailId").val(data[i].distributor_EmailId);
+                                $("#Movie_distributor").val(data[i].movie_distributor);
+                                $('#Advance_Type').val(data[i].advance_Type);
+                            }
+                        }
+                    }
+                },
+                error: function (req, status, error) {
+                    // do something with error
+                    debugger
+
+
+                }
+              });
+            $("#tblmovietable td").remove();
+
+            var mvestarcast = $("#Movie_starcast").val();
+            if (mvestarcast !== null) {
+                var myArray = mvestarcast.split(",");
+                for (var i = 0; i < myArray.length - 1; i++) {
+                    var span = $('<span />').html(myArray[i]);
+                    $("#tags").append(span);
+                }
+            }
+
+
+            samplemovietable.rows().eq(0).each(function (index) {
+
+                var data4 = samplemovietable.row(index).data();
+                $("#tblmovietable").append(
+                    "<tr><td class='d-none d-sm-table-cell' style='display:none !important' >" + data4[0] + "</td>" +
+                    "<td>" + data4[1] + "</td>" +
+                    "<td>" + data4[2] + "</td>" +
+                    "<td>" + data4[12] + "</td>" +
+                    "<td><a class='btn btn-secondary rounded active mb-1' style='width:60px;' onclick='removeMovie(" + data4[0] + ")'>Remove</a> <a class='btn btn-secondary rounded active mb-1' style='width:60px;' onclick='editMovie(" + data4[0] + ")'>Edit</a></td></tr>");
+            });
+        }
+    });
+    function editMovie(movId) {
+        samplemovietable.rows().eq(0).each(function (index) {
+
+            var data4 = samplemovietable.row(index).data();
+                if (data4[0] == movId) {
+                    $('#Movie_id').val(data4[0]);
+                    $('#Movie_title').val(data4[1]);
+                    $('#Movie_banner').val(data4[2]);
+                    //$('#Movie_starcast').val(data4[3]);
+                    $('#Account_Name').val(data4[4]);
+                    $('#Account_No').val(data4[5]);
+                    $('#Bank_Name').val(data4[6]);
+                    $('#IFSC_Code').val(data4[7]);
+                    $('#Booking_Through').val(data4[8]);
+                    $('#Period_Run').val(data4[9]);
+                    var rDate = data4[10];
+                    var rDateArray = rDate.split("-");
+                    relaeseDate = dateconvertion(rDateArray[0], rDateArray[1], rDateArray[2]);
+                    $('#Release_Date').datepicker('setDate', relaeseDate);
+                    $('#Distributor_EmailId').val(data4[11]);
+                    $('#Movie_distributor').val(data4[12]);
+                    $('#Advance_Type').val(data4[13]);
+                }
+
+            var mvestarcast = data4[3];
+            if (mvestarcast !== null) {
+                var myArray = mvestarcast.split(",");
+                for (var i = 0; i < myArray.length - 1; i++) {
+                    var span = $('<span />').html(myArray[i]);
+                    $("#tags").append(span);
+                }
+            }
+       });
+    }
+    $("#Movie_id").change(function () {
+        debugger
+        $('#tags').find('span').remove();
+        var Movie_id = $("#Movie_id").val();
+        $.ajax({
+                type: "GET",
+                async: false,
+                url: '@Url.Action("GetMovieForAgreement", "agreement")',
+                data: { "movieid": Movie_id},
+                dataType: "json",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                success: function (data) {
+                    debugger
+                    if (data !== "<") {
+                            //$('#Movie_id').val(data.movieId);
+                            $('#Movie_title').val(data.movie_Name);
+                            $('#Movie_banner').val(data.movie_Banner);
+                            //$('#Movie_starcast').val(data.movie_starcast);
+                            $('#Account_Name').val(data.account_Name);
+                            $('#Account_No').val(data.account_No);
+                            $('#Bank_Name').val(data.bank_Name);
+                            $('#IFSC_Code').val(data.ifsC_Code);
+                            if (data.bookingThrough == null || data.bookingThrough == "") {
+                            $('#Booking_Through').val("Direct");
+                            }
+                             else {
+                            $('#Booking_Through').val(data.bookingThrough);
+                            }
+                            $('#Period_Run').val(data.periodOfRun);
+                            var rDate = data.releaseDate;
+                            var rDateArray = rDate.split("-");
+                            relaeseDate = dateconvertion(rDateArray[0], rDateArray[1], rDateArray[2]);
+                            $('#Release_Date').datepicker('setDate', relaeseDate);
+                            $('#Distributor_EmailId').val(data.distributor_EmailId);
+                            $('#Movie_distributor').val(data.movie_distributor);
+                            $('#Advance_Type').val(data.advance_Type);
+
+                        var mvestarcast = data.movie_starcast;
+                        if (mvestarcast !== null) {
+                            var myArray = mvestarcast.split(",");
+                            for (var i = 0; i < myArray.length - 1; i++) {
+                                var span = $('<span />').html(myArray[i]);
+                                $("#tags").append(span);
+                            }
+                        }
+
+                    }
+                },
+                error: function (req, status, error) {
+                    // do something with error
+                    debugger
+                }
+            });
+    });
+    function setMovietable()
+    {
+        debugger
+        var proceed = 0;
+        var Movieid = $("#Movie_id").val();
+        var Booking_Through = $("#Booking_Through").val();
+        var Period_Run = $("#Period_Run").val();
+        var Account_Name = $("#Account_Name").val();
+        var Account_No = $("#Account_No").val();
+        var Bank_Name = $("#Bank_Name").val();
+        var IFSC_Code = $("#IFSC_Code").val();
+        if (samplemovietable.rows().count() == 0) {
+            if (Booking_Through == null || Booking_Through == "") {
+                swal({
+                    title: "Alert!",
+                    text: "Please enter Booking through.",
+                    type: "warning"
+                });
+            }
+            else if (Period_Run == null || Period_Run == "") {
+                swal({
+                    title: "Alert!",
+                    text: "Please enter Period of Run.",
+                    type: "warning"
+                });
+            }
+            else if (Account_Name == null || Account_Name == "") {
+                swal({
+                    title: "Alert!",
+                    text: "Please enter Account Name.",
+                    type: "warning"
+                });
+            }
+            else if (Account_No == null || Account_No == "") {
+                swal({
+                    title: "Alert!",
+                    text: "Please enter Account No.",
+                    type: "warning"
+                });
+            }
+            else if (Bank_Name == null || Bank_Name == "") {
+                swal({
+                    title: "Alert!",
+                    text: "Please enter Bank Name.",
+                    type: "warning"
+                });
+            }
+            else if (IFSC_Code == null || IFSC_Code == "") {
+                swal({
+                    title: "Alert!",
+                    text: "Please enter IFSC Code.",
+                    type: "warning"
+                });
+            }
+            else {
+                proceed = 1;
+            }
+        } else {
+            proceed = 1;
+        }
+        if (proceed == 1) {
+            swal({
+                title: "Are you sure?",
+                text: "Are you sure that you want to Save this data?",
+                type: "warning",
+                showCancelButton: true,
+                allowOutsideClick: false,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Yes",
+                confirmButtonColor: "#ec6c62"
+            }).then(function (data) {
+
+                var updateOrAdd = 0;
+                samplemovietable.rows().eq(0).each(function (index) {
+                    debugger
+                    $("#tblmovietable td").remove();
+                    var data4 = samplemovietable.row(index).data();
+                    if (data4[0] == Movieid) {
+                        updateOrAdd = 1;
+                    }
+                });
+                if (updateOrAdd == 1) {
+                    UpdateMoviediv();
+                }
+                else {
+                    addMoviediv();
+                }
+                $("#tblmovietable td").remove();
+                debugger
+                samplemovietable.rows().eq(0).each(function (index) {
+                    var data4 = samplemovietable.row(index).data();
+                    $("#tblmovietable").append(
+                        "<tr><td class='d-none d-sm-table-cell' style='display:none !important' >" + data4[0] + "</td>" +
+                        "<td>" + data4[1] + "</td>" +
+                        "<td>" + data4[2] + "</td>" +
+                        "<td>" + data4[12] + "</td>" +
+                        "<td><a class='btn btn-secondary rounded active mb-1' style='width:60px;' onclick='removeMovie(" + data4[0] + ")'>Remove</a> <a class='btn btn-secondary rounded active mb-1' style='width:60px;' onclick='editMovie(" + data4[0] + ")'>Edit</a></td></tr>");
+                });
+
+                $("#Movie_id").val("");
+                $("#Movie_banner").val("");
+                //$("#tags").html("");
+                //$("#starcast").show();
+                $("#Release_Date").val("");
+                $("#Booking_Through").val("");
+                $("#Period_Run").val("");
+                $("#Account_Name").val("");
+                $("#Account_No").val("");
+                $("#Bank_Name").val("");
+                $("#IFSC_Code").val("");
+                $("#Distributor_EmailId").val("");
+                $("#Movie_distributor").val("");
+                $("#Advance_Type").val("Refundable");
+
+                $('#tags').find('span').remove();
+                debugger
+            })
+        }
+    }
+    function viewmovieDiv() {
+        $('#complexDiv').hide();
+        $('#ScreeningTermsDiv').hide();
+        $('#TermsAndConditionsDiv').hide();
+        $('#AdditionalTermsDiv').hide();
+        $('#PreviewDiv').hide();
+        $('#moviediv').show();
+        $("ul.ulstyle > li > button").click(function (e) {
+            $('#viewmve').addClass("aactive");
+            $('#cmplx').removeClass("aactive");
+            $('#scrng').removeClass("aactive");
+            $('#termsc').removeClass("aactive");
+            $('#termsdiv').removeClass("aactive");
+            $('#viwprv').removeClass("aactive");
+        });
+    }
+    function viewcomplexDiv() {
+        $('#moviediv').hide();
+        $('#ScreeningTermsDiv').hide();
+        $('#TermsAndConditionsDiv').hide();
+        $('#AdditionalTermsDiv').hide();
+        $('#PreviewDiv').hide();
+        $('#complexDiv').show();
+        if (PageType == "create") {
+            setComplexDiv(1,0);
+        }
+        else {
+            setComplexDiv(1, agreementId);
+        }
+        pagingComplexListDiv(1);
+    }
+    function viewScreeningTermsDiv() {
+        $('#moviediv').hide();
+        $('#complexDiv').hide();
+        $('#TermsAndConditionsDiv').hide();
+        $('#AdditionalTermsDiv').hide();
+        $('#PreviewDiv').hide();
+        $('#ScreeningTermsDiv').show();
+        var screenType = "Screening";
+        setScreeningTermsDiv(screenType, agreementId);
+        PagingScreeningTermsDiv(1,screenType);
+    }
+    function viewTermsAndConditionsDiv() {
+        $('#moviediv').hide();
+        $('#complexDiv').hide();
+        $('#ScreeningTermsDiv').hide();
+        $('#AdditionalTermsDiv').hide();
+        $('#PreviewDiv').hide();
+        $('#TermsAndConditionsDiv').show();
+        var screenType = "Standard";
+        setStandardTermsDiv(screenType, agreementId);
+        PagingStandardTermsDiv(1,screenType);
+    }
+
+
+    function viewAdditionalTermsDiv() {
+        $('#moviediv').hide();
+        $('#complexDiv').hide();
+        $('#ScreeningTermsDiv').hide();
+        $('#TermsAndConditionsDiv').hide();
+        $('#PreviewDiv').hide();
+        $('#AdditionalTermsDiv').show();
+        var screenType = "Additional";
+        setAdditionalTermsDiv(screenType, agreementId);
+        PagingAdditionalTermsDiv(1,screenType);
+    }
+    function viewPreview() {
+        $('#moviediv').hide();
+        $('#complexDiv').hide();
+        $('#ScreeningTermsDiv').hide();
+        $('#AdditionalTermsDiv').hide();
+        $('#TermsAndConditionsDiv').hide();
+        $('#PreviewDiv').show();
+        showPreview();
+    }
+    function SetMoviediv() {
+
+        $.ajax({
+                type: "GET",
+                async: false,
+                url: '@Url.Action("GetMovieForAgreement", "agreement")',
+                data: { "movieid": 0},
+                dataType: "json",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                success: function (data) {
+                    debugger
+                    if (data !== "<") {
+
+                            debugger
+                            var samplemoviedata = [];
+                            samplemoviedata.push(data.movieId);
+                            samplemoviedata.push(data.movie_Name);
+                            samplemoviedata.push(data.movie_Banner);
+                            samplemoviedata.push(data.movie_starcast);
+                            samplemoviedata.push(data.account_Name);
+                            samplemoviedata.push(data.account_No);
+                            samplemoviedata.push(data.bank_Name);
+                            samplemoviedata.push(data.ifsC_Code);
+                            samplemoviedata.push(data.bookingThrough);
+                            samplemoviedata.push(data.periodOfRun);
+                            samplemoviedata.push(data.releaseDate);
+                            samplemoviedata.push(data.distributor_EmailId);
+                            samplemoviedata.push(data.movie_distributor);
+                            samplemoviedata.push(data.advance_Type);
+                            samplemovietable.row.add(samplemoviedata);
+                            samplemovietable.draw();
+
+                            //$('#Movie_id').val(data.movieId);
+                            $('#Movie_title').val(data.movie_Name);
+                            $('#Movie_banner').val(data.movie_Banner);
+                            $('#Movie_starcast').val(data.movie_starcast);
+                            $('#Account_Name').val(data.account_Name);
+                            $('#Account_No').val(data.account_No);
+                            $('#Bank_Name').val(data.bank_Name);
+                            $('#IFSC_Code').val(data.ifsC_Code);
+                            $('#Booking_Through').val(data.bookingThrough);
+                            $('#Period_Run').val(data.periodOfRun);
+                            var rDate = data.releaseDate;
+                            var rDateArray = rDate.split("-");
+                            relaeseDate = dateconvertion(rDateArray[0], rDateArray[1], rDateArray[2]);
+                            $('#Release_Date').datepicker('setDate', relaeseDate);
+                            $('#Distributor_EmailId').val(data.distributor_EmailId);
+                            $('#Movie_distributor').val(data.movie_distributor);
+                            $('#Advance_Type').val(data.advance_Type);
+                    }
+                },
+                error: function (req, status, error) {
+                    // do something with error
+                    debugger
+                }
+            });
+    }
+    function UpdateMoviediv() {
+        debugger
+        var Movie_id = $("#Movie_id").val();
+        samplemovietable.rows().eq(0).each(function (index) {
+            var data4 = samplemovietable.row(index).data();
+            if (data4[0] == Movie_id) {
+                debugger
+                var name = $('#tags span').html();
+                var txt = "";
+                $("#tags span").each(function () {
+                    txt += $(this).text() + ",";//here you get the values from each span inside selected element
+                });
+
+
+                data4[0] = $('#Movie_id').val();
+                data4[1] = $('#Movie_title').val();
+                data4[2] = $('#Movie_banner').val();
+                data4[3] = txt;
+                data4[4] = $('#Account_Name').val();
+                data4[5] = $('#Account_No').val();
+                data4[6] = $('#Bank_Name').val();
+                data4[7] = $('#IFSC_Code').val();
+                data4[8] = $('#Booking_Through').val();
+                data4[9] = $('#Period_Run').val();
+                data4[10] = $('#Release_Date').val();
+                data4[11] = $('#Distributor_EmailId').val();
+                data4[12] = $('#Movie_distributor').val();
+                data4[13] = $('#Advance_Type').val();
+                samplemovietable.row(index).data(data4);
+                samplemovietable.draw();
+            }
+
+        });
+    }
+    function removeMovie(Movie_id) {
+        debugger
+        samplemovietable.rows().eq(0).each(function (index) {
+            debugger
+            var data4 = samplemovietable.row(index).data();
+            if (data4 !== undefined) {
+                if (data4[0] == Movie_id) {
+                    debugger
+                    var data5 = samplemovietable.row(index);
+                    data5.remove().draw();
+
+
+                }
+            }
+        });
+        $("#tblmovietable td").remove();
+        samplemovietable.rows().eq(0).each(function (index) {
+
+            var data4 = samplemovietable.row(index).data();
+            $("#tblmovietable").append(
+                "<tr><td class='d-none d-sm-table-cell' style='display:none !important' >" + data4[0] + "</td>" +
+                "<td>" + data4[1] + "</td>" +
+                "<td>" + data4[2] + "</td>" +
+                "<td>" + data4[12] + "</td>" +
+                "<td><a class='btn btn-secondary rounded active mb-1' style='width:60px;' onclick='removeMovie(" + data4[0] + ")'>Remove</a> <a class='btn btn-secondary rounded active mb-1' style='width:60px;' onclick='editMovie(" + data4[0] + ")'>Edit</a></td></tr>");
+        });
+    }
+    function addMoviediv() {
+        debugger
+        var name = $('#tags span').html();
+        var txt = "";
+        $("#tags span").each(function () {
+            txt += $(this).text() + ",";//here you get the values from each span inside selected element
+        });
+
+            var samplemoviedata = [];
+            samplemoviedata.push($('#Movie_id').val());
+            samplemoviedata.push($('#Movie_title').val());
+            samplemoviedata.push($('#Movie_banner').val());
+            samplemoviedata.push(txt);
+            samplemoviedata.push($('#Account_Name').val());
+            samplemoviedata.push($('#Account_No').val());
+            samplemoviedata.push($('#Bank_Name').val());
+            samplemoviedata.push($('#IFSC_Code').val());
+            samplemoviedata.push($('#Booking_Through').val());
+            samplemoviedata.push($('#Period_Run').val());
+            samplemoviedata.push($('#Release_Date').val());
+            samplemoviedata.push($('#Distributor_EmailId').val());
+            samplemoviedata.push($('#Movie_distributor').val());
+            samplemoviedata.push($('#Advance_Type').val());
+            samplemovietable.row.add(samplemoviedata);
+            samplemovietable.draw();
+    }
+    function dateconvertion(var1, var2, var3) {
+        debugger
+        var today = new Date(var1, var2, var3);
+        var dd = today.getDate();
+        var mm = today.getMonth(); //January is 0!
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        today = var1 + '-' + var2 + '-' + var3;
+        return today;
+    }
+
+    function setComplexDiv(pageno, agreementId) {
+
+        if (samplemovietable.rows().count() == 0) {
+            debugger
+            swal({
+                title: "Alert!",
+                text: "Please enter Movie Details!",
+                type: "warning"
+            });
+            $("ul.ulstyle > li > button").click(function (e) {
+                $('#viewmve').addClass("aactive");
+                $('#cmplx').removeClass("aactive");
+                $('#scrng').removeClass("aactive");
+                $('#termsc').removeClass("aactive");
+                $('#termsdiv').removeClass("aactive");
+                $('#viwprv').removeClass("aactive");
+            });
+            $('#moviediv').show();
+            $('#complexDiv').hide();
+            $('#ScreeningTermsDiv').hide();
+            $('#TermsAndConditionsDiv').hide();
+            $('#AdditionalTermsDiv').hide();
+            $('#PreviewDiv').hide();
+        }
+        else {
+            $("ul.ulstyle > li > button").click(function (e) {
+                $('#cmplx').addClass("aactive");
+                $('#viewmve').removeClass("aactive");
+                $('#scrng').removeClass("aactive");
+                $('#termsc').removeClass("aactive");
+                $('#termsdiv').removeClass("aactive");
+                $('#viwprv').removeClass("aactive");
+            });
+                debugger
+            if (samplecomplextable.rows().count() == 0) {
+                 debugger
+                $.ajax({
+                type: "GET",
+                url: '@Url.Action("Listcomplexlist", "agreement")',
+                    data: { "currentPage": pageno, "theatergroupid": theatergroupid, "agreementId": agreementId },
+                async: false,
+                success: function (data) {
+                    debugger
+                    if (data[0] !== "<") {
+                        for (var i = 0; i < data.complexlist.length; i++) {
+                            var compleExist = 0;
+                            samplecomplextable.rows().eq(0).each(function (index) {
+                                debugger
+                                var data4 = samplecomplextable.row(index).data();
+                                if (data4[2] == parseInt(Complex_id)) {
+                                    compleExist = 1;
+                                }
+                            });
+                            if (compleExist == 0) {
+                                var samplecomplexdata = [];
+                                samplecomplexdata.push(data.complexlist[i].slNo);
+                                samplecomplexdata.push(data.complexlist[i].isChecked);
+                                samplecomplexdata.push(data.complexlist[i].complexId);
+                                samplecomplexdata.push(data.complexlist[i].complexName);
+                                samplecomplexdata.push(data.complexlist[i].district);
+                                samplecomplexdata.push(data.complexlist[i].stationName);
+                                samplecomplexdata.push(data.complexlist[i].advance);
+                                samplecomplextable.row.add(samplecomplexdata);
+                                samplecomplextable.draw();
+                            }
+
+                        }
+                    }
+
+                },
+                error: function (req, status, error) {
+                    debugger
+                }
+            });
+            }
+        }
+    }
+    function pagingComplexListDiv(pageno) {
+        if (samplecomplextable.data().count() > 0) {
+            debugger
+            $("#tblListComplex td").remove();
+            var pgno = 0;
+            if (pageno == 1) {
+                pgno = 0;
+            }
+            else {
+                pgno = (pageno - 1) * 10;
+            }
+           // index = pgno;
+            var cnt = 1;
+                samplecomplextable.rows().eq(0).each(function (index) {
+                    debugger
+                    if (cnt <= 10) {
+                        var data4 = samplecomplextable.row(index).data();
+                        debugger
+                        if (data4[0] >= pgno + 1 && data4[0] <= (pgno + 1) * 10) {
+                            $("#tblListComplex").append(
+                                "<tr><td><input id=chkcmp" + data4[2] + " onclick='setshowcheckbox(" + data4[2] + ")' name='removefromcart'  type='checkbox'  value='" + data4[2] + "' style='position:relative;left:0px;opacity:1;'/></td>" +
+                                "<td class='d-none d-sm-table-cell'>" + data4[0] + "</td>" +
+                                "<td class='d-none d-sm-table-cell'>" + data4[4] + "</td>" +
+                                "<td>" + data4[3] + "</td>" +
+                                "<td>" + data4[5] + "</td>" +
+                                "<td>" + data4[6] + "</td>" +
+                                "<td><a onclick='editadvance(" + data4[2] + "," + pageno+")' href='#modal' class='iconsminds-file-edit' title='Edit'></a></td ></tr > ");
+                            if (data4[1] == 1) {
+                                debugger
+                                document.getElementById('chkcmp' + data4[2]).checked = true;
+                            }
+                            else {
+                                document.getElementById('chkcmp' + data4[2]).checked = false;
+                            }
+                            cnt++;
+                        }
+                    }
+                });
+                var no = pageno;
+                $('#Pagenumber').val((no));
+                debugger
+                var c = parseInt(samplecomplextable.rows().count() - 1);
+                c = c / 10;
+                c = c + 1;
+                var cno = Math.floor(c);
+                $('#Pagecount').val((cno));
+                if (cno < 2) {
+                    $('.dataTables_paginate').hide();
+                }
+                else {
+                    $('.dataTables_paginate').show();
+                }
+        }
+        else {
+            $('.dataTables_paginate').hide();
+            $("#tblListComplex td").remove();
+            $("#tblListComplex").append("<td colspan='5' style='padding-left: 4%;font-size: larger;'>No Data.</td>");
+        }
+
+    }
+    function updateAdvance() {
+        var Complex_id = $('#Complex_id').val();
+        var pageno = $('#Pageno').val();
+        var Advance = $('#advancetxt').val();
+        $('#exampleModal1').modal('hide');
+         samplecomplextable.rows().eq(0).each(function (index) {
+            debugger
+            var data4 = samplecomplextable.row(index).data();
+             if (data4[2] == parseInt(Complex_id)) {
+                data4[6] = Advance;
+                samplecomplextable.row(index).data(data4);
+                samplecomplextable.draw();
+            }
+         });
+        pagingComplexListDiv(pageno)
+    }
+    function editadvance(complexId, pageno) {
+        if (document.getElementById('chkcmp' + complexId).checked == true) {
+            $('#Complex_id').val(complexId);
+            $('#Pageno').val(pageno);
+            $('#exampleModal1').modal('show');
+            debugger
+            samplecomplextable.rows().eq(0).each(function (index) {
+                debugger
+                var data4 = samplecomplextable.row(index).data();
+                if (data4[2] == parseInt(complexId)) {
+                    $('#nametxt').val(data4[3]);
+                    $('#stationtxt').val(data4[5]);
+                    $('#advancetxt').val(data4[6]);
+                }
+            });
+            @*$.ajax({
+                type: "GET",
+                async: false,
+                url: '@Url.Action("getdetailsforedit", "agreement")',
+                data: { "complexId": complexId },
+                dataType: "json",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                success: function (data) {
+                    debugger
+                    if (data[0] !== "<") {
+                        $('#nametxt').val(data.complexName);
+                        $('#stationtxt').val(data.stationName);
+                        $('#advancetxt').val(data.advance);
+                    }
+                },
+                error: function (req, status, error) {
+                    // do something with error
+                    debugger
+                }
+            });*@
+        }
+        else {
+            swal({
+                title: "Alert!",
+                text: "You should select complex!",
+                type: "warning"
+            });
+        }
+    }
+    function setshowcheckbox(complexval) {
+        debugger
+        samplecomplextable.rows().eq(0).each(function (index) {
+            debugger
+            var data4 = samplecomplextable.row(index).data();
+            if (data4[2] == parseInt(complexval)) {
+                debugger
+                if (document.getElementById('chkcmp' + complexval).checked == true) {
+                    data4[1] = 1;
+                }
+                else {
+                    data4[1] = 0;
+                }
+                samplecomplextable.row(index).data(data4);
+                samplecomplextable.draw();
+            }
+        });
+    }
+    $('#previousbutton').click(function (event) {
+        event.preventDefault();
+        var val1 = $('#Pagenumber').val();
+        var answer = parseFloat(val1) - 1 <= 0 ? 1 : parseFloat(val1) - 1;
+        pagingComplexListDiv(answer);
+
+    });
+    $('#nextbutton').click(function (event) {
+        event.preventDefault();
+        var val1 = $('#Pagenumber').val();
+        var page = $('#Pagecount').val();
+        var answer = parseFloat(val1) >= page ? parseFloat(val1) : parseFloat(val1) + 1
+        pagingComplexListDiv(answer);
+    });
+    function onchangeevent(textbox) {
+        debugger
+        var val1 = $('#Pagenumber').val();
+        var val2 = $('#Pagecount').val();
+        var old = textbox.oldvalue;
+        if (val1 <= val2 && val1 !== 0) {
+            pagingComplexListDiv(val1);
+        }
+        else {
+            swal({
+                title: "Error",
+                text: "Invalid Page Number",
+                type: "error"
+            }).then(result => {
+                $('#Pagenumber').val((old));
+                pagingComplexListDiv(old)
+            });
+        }
+    }
+
+    function setScreeningTermsDiv(screenType, agreementId) {
+        debugger
+        if (samplemovietable.rows().count() == 0) {
+            debugger
+            swal({
+                title: "Alert!",
+                text: "Please enter Movie Details!",
+                type: "warning"
+            });
+            $("ul.ulstyle > li > button").click(function (e) {
+                $('#viewmve').addClass("aactive");
+                $('#cmplx').removeClass("aactive");
+                $('#scrng').removeClass("aactive");
+                $('#termsc').removeClass("aactive");
+                $('#termsdiv').removeClass("aactive");
+                $('#viwprv').removeClass("aactive");
+            });
+            $('#moviediv').show();
+            $('#complexDiv').hide();
+            $('#ScreeningTermsDiv').hide();
+            $('#TermsAndConditionsDiv').hide();
+            $('#AdditionalTermsDiv').hide();
+            $('#PreviewDiv').hide();
+        }
+        else if (samplecomplextable.rows().count() == 0) {
+            debugger
+            swal({
+                title: "Alert!",
+                text: "Complex List has no data!",
+                type: "warning"
+            });
+            $("ul.ulstyle > li > button").click(function (e) {
+                $('#cmplx').addClass("aactive");
+                $('#viewmve').removeClass("aactive");
+                $('#scrng').removeClass("aactive");
+                $('#termsc').removeClass("aactive");
+                $('#termsdiv').removeClass("aactive");
+                $('#viwprv').removeClass("aactive");
+            });
+            $('#complexDiv').show();
+            $('#ScreeningTermsDiv').hide();
+            $('#TermsAndConditionsDiv').hide();
+            $('#AdditionalTermsDiv').hide();
+            $('#PreviewDiv').hide();
+        }
+        else {
+            $("ul.ulstyle > li > button").click(function (e) {
+                $('#scrng').addClass("aactive");
+                $('#cmplx').removeClass("aactive");
+                $('#viewmve').removeClass("aactive");
+                $('#termsc').removeClass("aactive");
+                $('#termsdiv').removeClass("aactive");
+                $('#viwprv').removeClass("aactive");
+            });
+
+            if (samplescreeningtermtable.rows().count() == 0) {
+                 $.ajax({
+                type: "GET",
+                async: false,
+                url: '@Url.Action("GetAllScreeningTerms", "agreement")',
+                data: { "screenType": screenType, "agreementId": agreementId },
+                dataType: "json",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                success: function (data) {
+                    debugger
+                    if (data[0] !== "<") {
+
+                        for (var i = 0; i < data.length; i++) {
+                            var samplescreeningtermdata = [];
+                            samplescreeningtermdata.push(data[i].termId);
+                            samplescreeningtermdata.push(data[i].term);
+                            samplescreeningtermdata.push(data[i].percentage);
+                            samplescreeningtermdata.push(data[i].isChecked);
+                            samplescreeningtermtable.row.add(samplescreeningtermdata);
+                            samplescreeningtermtable.draw();
+                        }
+                    }
+                },
+                error: function (req, status, error) {
+                    // do something with error
+                    debugger
+
+
+                }
+            });
+            }
+            
+
+
+        }
+    }
+    function PagingScreeningTermsDiv(pageno,screenType) {
+         debugger
+         $.ajax({
+                type: "GET",
+                async: false,
+                url: '@Url.Action("ListScreeningTerms", "agreement")',
+                data: { "currentPage": pageno,"screenType": screenType},
+                dataType: "json",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                success: function (response) {
+                 debugger
+                 if (response[0] !== "<") {
+                     $("#tblListScreeningTerm td").remove();
+                     if (response.agreementTerms.length > 0) {
+                         for (var i = 0; i < response.agreementTerms.length; i++) {
+                             $("#tblListScreeningTerm").append(
+                                 "<tr><td><input id=chkterm" + response.agreementTerms[i].termId + " onclick='updatetermcheckbox(" + response.agreementTerms[i].termId + ")' name='removefromcart'  type='checkbox'  value='" + response.agreementTerms[i].termId + "' style='position:relative;left:0px;opacity:1;'/></td>" +
+                                 "<td>" + response.agreementTerms[i].slno + "</td>" +
+                                 "<td>" + response.agreementTerms[i].term + "</td>" +
+                                 "<td>" + response.agreementTerms[i].percentage + "</td ></tr > ");
+                                // "<td><a onclick='editPercentage(" + response.agreementTerms[i].termId + "," + pageno +")' href='#modal' class='iconsminds-file-edit' title='Edit'></a></td ></tr > ");
+                             samplescreeningtermtable.rows().eq(0).each(function (index) {
+                                 debugger
+                                 var data4 = samplescreeningtermtable.row(index).data();
+                                 if (data4[0] == parseInt(response.agreementTerms[i].termId)) {
+                                     if (data4[3] == 1) {
+                                         document.getElementById('chkterm' + response.agreementTerms[i].termId).checked = true;
+                                     }
+                                     else {
+                                         document.getElementById('chkterm' + response.agreementTerms[i].termId).checked = false;
+
+                                     }
+
+                                 }
+                             });
+
+                         }
+                         var no = response.current;
+                         $('#Pagenumber1').val((no));
+                         var cno = response.count;
+                         $('#Pagecount1').val((cno));
+                         if (cno < 2) {
+                             $('.dataTables_paginate1').hide();
+                         }
+                         else {
+                             $('.dataTables_paginate1').show();
+                         }
+                     }
+                     else {
+                         $('.dataTables_paginate1').hide();
+                         $("#tblListScreeningTerm td").remove();
+                         $("#tblListScreeningTerm").append("<td colspan='5' style='padding-left: 4%;font-size: larger;'>No Data.</td>");
+                     }
+                 }
+                 else {
+                     window.location.href = "/home/login";
+                 }
+             },
+                error: function (req, status, error) {
+                    // do something with error
+                    debugger
+
+
+                }
+            });
+    }
+    function editPercentage(termId, pageno) {
+        if (document.getElementById('chkterm' + termId).checked == true) {
+            $('#ScreeningTerms_Id').val(termId);
+            $('#Pageno').val(pageno);
+            $('#exampleModal2').modal('show');
+            debugger
+            $.ajax({
+                type: "GET",
+                async: false,
+                url: '@Url.Action("getpercentageforedit", "agreement")',
+                data: { "termId": termId },
+                dataType: "json",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                success: function (data) {
+                    debugger
+                    if (data[0] !== "<") {
+                        $('#screeningterm').val(data.term);
+                        $('#percent').val(data.percentage);
+                    }
+                },
+                error: function (req, status, error) {
+                    // do something with error
+                    debugger
+                }
+            });
+        }
+        else {
+            swal({
+                title: "Alert!",
+                text: "You should select Screening Term!",
+                type: "warning"
+            });
+        }
+    }
+    function updatePercentage() {
+        debugger
+        var ScreeningTerms = $('#ScreeningTerms_Id').val();
+        var Percentage = $('#percent').val();
+        var pageno = $('#Pageno').val();
+        $('#exampleModal2').modal('hide');
+        samplescreeningtermtable.rows().eq(0).each(function (index) {
+            debugger
+            var data4 = samplescreeningtermtable.row(index).data();
+            if (data4[0] == parseInt(ScreeningTerms)) {
+                data4[2] = Percentage;
+                samplescreeningtermtable.row(index).data(data4);
+                samplescreeningtermtable.draw();
+            }
+        });
+        PagingScreeningTermsDiv(pageno, "Screening")
+    }
+    function updatetermcheckbox(termid) {
+        debugger
+        samplescreeningtermtable.rows().eq(0).each(function (index) {
+            debugger
+            var data4 = samplescreeningtermtable.row(index).data();
+            if (data4[0] == parseInt(termid)) {
+                if (document.getElementById('chkterm' + termid).checked == true) {
+                    data4[3] = 1;
+                }
+                else {
+                    data4[3] = 0;
+                }
+                samplescreeningtermtable.row(index).data(data4);
+                samplescreeningtermtable.draw();
+            }
+        });
+    }
+    $('#previousbutton1').click(function (event) {
+        event.preventDefault();
+        var val1 = $('#Pagenumber1').val();
+        var answer = parseFloat(val1) - 1 <= 0 ? 1 : parseFloat(val1) - 1;
+        PagingScreeningTermsDiv(answer, "Screening");
+
+    });
+    $('#nextbutton1').click(function (event) {
+        event.preventDefault();
+        var val1 = $('#Pagenumber1').val();
+        var page = $('#Pagecount1').val();
+        var answer = parseFloat(val1) >= page ? parseFloat(val1) : parseFloat(val1) + 1
+        PagingScreeningTermsDiv(answer, "Screening");
+    });
+    function onchangeevent1(textbox) {
+        debugger
+        var val1 = $('#Pagenumber1').val();
+        var val2 = $('#Pagecount1').val();
+        var old = textbox.oldvalue;
+        if (val1 <= val2 && val1 !== 0) {
+            PagingScreeningTermsDiv(val1, "Screening");
+        }
+        else {
+            swal({
+                title: "Error",
+                text: "Invalid Page Number",
+                type: "error"
+            }).then(result => {
+                $('#Pagenumber1').val((old));
+                PagingScreeningTermsDiv(old, "Screening")
+            });
+        }
+    }
+
+    function setStandardTermsDiv(screenType, agreementId) {
+        if (samplemovietable.rows().count() == 0) {
+            debugger
+            swal({
+                title: "Alert!",
+                text: "Please enter Movie Details!",
+                type: "warning"
+            });
+            $("ul.ulstyle > li > button").click(function (e) {
+                $('#viewmve').addClass("aactive");
+                $('#cmplx').removeClass("aactive");
+                $('#scrng').removeClass("aactive");
+                $('#termsc').removeClass("aactive");
+                $('#termsdiv').removeClass("aactive");
+                $('#viwprv').removeClass("aactive");
+            });
+            $('#moviediv').show();
+            $('#complexDiv').hide();
+            $('#ScreeningTermsDiv').hide();
+            $('#TermsAndConditionsDiv').hide();
+            $('#AdditionalTermsDiv').hide();
+            $('#PreviewDiv').hide();
+        }
+        else if (samplecomplextable.rows().count() == 0) {
+            debugger
+            swal({
+                title: "Alert!",
+                text: "Complex List has no data!",
+                type: "warning"
+            });
+            $("ul.ulstyle > li > button").click(function (e) {
+                $('#cmplx').addClass("aactive");
+                $('#viewmve').removeClass("aactive");
+                $('#scrng').removeClass("aactive");
+                $('#termsc').removeClass("aactive");
+                $('#termsdiv').removeClass("aactive");
+                $('#viwprv').removeClass("aactive");
+            });
+            $('#complexDiv').show();
+            $('#ScreeningTermsDiv').hide();
+            $('#TermsAndConditionsDiv').hide();
+            $('#AdditionalTermsDiv').hide();
+            $('#PreviewDiv').hide();
+        }
+        else {
+
+            $("ul.ulstyle > li > button").click(function (e) {
+                $('#termsc').addClass("aactive");
+                $('#cmplx').removeClass("aactive");
+                $('#viewmve').removeClass("aactive");
+                $('#scrng').removeClass("aactive");
+                $('#termsdiv').removeClass("aactive");
+                $('#viwprv').removeClass("aactive");
+            });
+            debugger
+            if (samplestandardtermtable.rows().count() == 0) {
+                 $.ajax({
+                type: "GET",
+                async: false,
+                url: '@Url.Action("GetAllScreeningTerms", "agreement")',
+                     data: { "screenType": screenType, "agreementId": agreementId },
+                dataType: "json",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                success: function (data) {
+                    debugger
+                    if (data[0] !== "<") {
+                        for (var i = 0; i < data.length; i++) {
+                            var samplestandardtermdata = [];
+                            samplestandardtermdata.push(data[i].termId);
+                            samplestandardtermdata.push(data[i].term);
+                            samplestandardtermdata.push(data[i].percentage);
+                            samplestandardtermdata.push(data[i].isChecked);
+                            samplestandardtermtable.row.add(samplestandardtermdata);
+                            samplestandardtermtable.draw();
+                        }
+                    }
+                },
+                error: function (req, status, error) {
+                    // do something with error
+                    debugger
+
+
+                }
+            });
+            }
+
+        }
+    }
+    function PagingStandardTermsDiv(pageno, screenType) {
+         debugger
+         $.ajax({
+                type: "GET",
+                async: false,
+                url: '@Url.Action("ListScreeningTerms", "agreement")',
+                data: { "currentPage": pageno,"screenType": screenType},
+                dataType: "json",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                success: function (response) {
+                 debugger
+                 if (response[0] !== "<") {
+                     $("#tblListStandardTerm td").remove();
+                     if (response.agreementTerms.length > 0) {
+                         for (var i = 0; i < response.agreementTerms.length; i++) {
+                             $("#tblListStandardTerm").append(
+                                 "<tr><td><input id=chksterm" + response.agreementTerms[i].termId + " onclick='updatestandardtermcheckbox(" + response.agreementTerms[i].termId + ")' name='removefromcart'  type='checkbox'  value='" + response.agreementTerms[i].termId + "' style='position:relative;left:0px;opacity:1;'/></td>" +
+                                 "<td>" + response.agreementTerms[i].slno + "</td>" +
+                                 "<td>" + response.agreementTerms[i].term + "</td></tr>");
+                             samplestandardtermtable.rows().eq(0).each(function (index) {
+                                 debugger
+                                 var data4 = samplestandardtermtable.row(index).data();
+                                 if (data4[0] == parseInt(response.agreementTerms[i].termId)) {
+                                     if (data4[3] == 1) {
+                                         document.getElementById('chksterm' + response.agreementTerms[i].termId).checked = true;
+                                     }
+                                     else {
+                                         document.getElementById('chksterm' + response.agreementTerms[i].termId).checked = false;
+                                     }
+                                 }
+                             });
+                         }
+                         var no = response.current;
+                         $('#Pagenumber2').val((no));
+                         var cno = response.count;
+                         $('#Pagecount2').val((cno));
+                         if (cno < 2) {
+                             $('.dataTables_paginate2').hide();
+                         }
+                         else {
+                             $('.dataTables_paginate2').show();
+                         }
+                     }
+                     else {
+                         $('.dataTables_paginate2').hide();
+                         $("#tblListStandardTerm td").remove();
+                         $("#tblListStandardTerm").append("<td colspan='5' style='padding-left: 4%;font-size: larger;'>No Data.</td>");
+                     }
+                 }
+                 else {
+                     window.location.href = "/home/login";
+                 }
+             },
+                error: function (req, status, error) {
+                    // do something with error
+                    debugger
+
+
+                }
+            });
+    }
+    function updatestandardtermcheckbox(termid) {
+        debugger
+        samplestandardtermtable.rows().eq(0).each(function (index) {
+            debugger
+            var data4 = samplestandardtermtable.row(index).data();
+            if (data4[0] == parseInt(termid)) {
+                if (document.getElementById('chksterm' + termid).checked == true) {
+                    data4[3] = 1;
+                }
+                else {
+                    data4[3] = 0;
+                }
+                samplestandardtermtable.row(index).data(data4);
+                samplestandardtermtable.draw();
+            }
+        });
+    }
+    $('#previousbutton2').click(function (event) {
+        event.preventDefault();
+        var val1 = $('#Pagenumber2').val();
+        var answer = parseFloat(val1) - 1 <= 0 ? 1 : parseFloat(val1) - 1;
+        PagingStandardTermsDiv(answer, "Standard");
+
+    });
+    $('#nextbutton2').click(function (event) {
+        event.preventDefault();
+        var val1 = $('#Pagenumber2').val();
+        var page = $('#Pagecount2').val();
+        var answer = parseFloat(val1) >= page ? parseFloat(val1) : parseFloat(val1) + 1
+        PagingStandardTermsDiv(answer, "Standard");
+    });
+    function onchangeevent2(textbox) {
+        debugger
+        var val1 = $('#Pagenumber2').val();
+        var val2 = $('#Pagecount2').val();
+        var old = textbox.oldvalue;
+        if (val1 <= val2 && val1 !== 0) {
+            PagingStandardTermsDiv(val1, "Standard");
+        }
+        else {
+            swal({
+                title: "Error",
+                text: "Invalid Page Number",
+                type: "error"
+            }).then(result => {
+                $('#Pagenumber2').val((old));
+                PagingStandardTermsDiv(old, "Standard")
+            });
+        }
+    }
+
+    function setAdditionalTermsDiv(screenType, agreementId) {
+        if (samplemovietable.rows().count() == 0) {
+            debugger
+            swal({
+                title: "Alert!",
+                text: "Please enter Movie Details!",
+                type: "warning"
+            });
+            $("ul.ulstyle > li > button").click(function (e) {
+                $('#viewmve').addClass("aactive");
+                $('#cmplx').removeClass("aactive");
+                $('#scrng').removeClass("aactive");
+                $('#termsc').removeClass("aactive");
+                $('#termsdiv').removeClass("aactive");
+                $('#viwprv').removeClass("aactive");
+            });
+            $('#moviediv').show();
+            $('#complexDiv').hide();
+            $('#ScreeningTermsDiv').hide();
+            $('#TermsAndConditionsDiv').hide();
+            $('#AdditionalTermsDiv').hide();
+            $('#PreviewDiv').hide();
+        }
+        else if (samplecomplextable.rows().count() == 0) {
+            debugger
+            swal({
+                title: "Alert!",
+                text: "Complex List has no data!",
+                type: "warning"
+            });
+            $("ul.ulstyle > li > button").click(function (e) {
+                $('#cmplx').addClass("aactive");
+                $('#viewmve').removeClass("aactive");
+                $('#scrng').removeClass("aactive");
+                $('#termsc').removeClass("aactive");
+                $('#termsdiv').removeClass("aactive");
+                $('#viwprv').removeClass("aactive");
+            });
+            $('#complexDiv').show();
+            $('#ScreeningTermsDiv').hide();
+            $('#TermsAndConditionsDiv').hide();
+            $('#AdditionalTermsDiv').hide();
+            $('#PreviewDiv').hide();
+        }
+        else {
+            $("ul.ulstyle > li > button").click(function (e) {
+                $('#termsdiv').addClass("aactive");
+                $('#viewmve').removeClass("aactive");
+                $('#scrng').removeClass("aactive");
+                $('#termsc').removeClass("aactive");
+                $('#cmplx').removeClass("aactive");
+                $('#viwprv').removeClass("aactive");
+            });
+            debugger
+            if (sampleadditionaltermstable.rows().count() == 0) {
+                 $.ajax({
+                type: "GET",
+                async: false,
+                url: '@Url.Action("GetAllScreeningTerms", "agreement")',
+                     data: { "screenType": screenType, "agreementId": agreementId },
+                dataType: "json",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                success: function (data) {
+                    debugger
+                    if (data[0] !== "<") {
+                        for (var i = 0; i < data.length; i++) {
+                            var sampleadditionaltermdata = [];
+                            sampleadditionaltermdata.push(data[i].termId);
+                            sampleadditionaltermdata.push(data[i].term);
+                            sampleadditionaltermdata.push(data[i].percentage);
+                            sampleadditionaltermdata.push(data[i].isChecked);
+                            sampleadditionaltermstable.row.add(sampleadditionaltermdata);
+                            sampleadditionaltermstable.draw();
+                        }
+                    }
+                },
+                error: function (req, status, error) {
+                    // do something with error
+                    debugger
+                }
+            });
+            }
+
+        }
+    }
+    function PagingAdditionalTermsDiv(pageno, screenType) {
+         debugger
+         $.ajax({
+                type: "GET",
+                async: false,
+                url: '@Url.Action("ListScreeningTerms", "agreement")',
+                data: { "currentPage": pageno,"screenType": screenType},
+                dataType: "json",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                success: function (response) {
+                 debugger
+                 if (response[0] !== "<") {
+                     $("#tblListAdditionalTerm td").remove();
+                     if (response.agreementTerms.length > 0) {
+                         for (var i = 0; i < response.agreementTerms.length; i++) {
+                             $("#tblListAdditionalTerm").append(
+                                 "<tr><td><input id=chkadditionalterm" + response.agreementTerms[i].termId + " onclick='updateadditionalcheckbox(" + response.agreementTerms[i].termId + ")' name='removefromcart'  type='checkbox'  value='" + response.agreementTerms[i].termId + "' style='position:relative;left:0px;opacity:1;'/></td>" +
+                                 "<td>" + response.agreementTerms[i].slno + "</td>" +
+                                 "<td>" + response.agreementTerms[i].term + "</td></tr>");
+                             sampleadditionaltermstable.rows().eq(0).each(function (index) {
+                                 debugger
+                                 var data4 = sampleadditionaltermstable.row(index).data();
+                                 if (data4[0] == parseInt(response.agreementTerms[i].termId)) {
+                                     if (data4[3] == 1) {
+                                         document.getElementById('chkadditionalterm' + response.agreementTerms[i].termId).checked = true;
+                                     }
+                                     else {
+                                         document.getElementById('chkadditionalterm' + response.agreementTerms[i].termId).checked = false;
+
+                                     }
+
+                                 }
+                             });
+                         }
+                         var no = response.current;
+                         $('#Pagenumber3').val((no));
+                         var cno = response.count;
+                         $('#Pagecount3').val((cno));
+                         if (cno < 2) {
+                             $('.dataTables_paginate3').hide();
+                         }
+                         else {
+                             $('.dataTables_paginate3').show();
+                         }
+                     }
+                     else {
+                         $('.dataTables_paginate3').hide();
+                         $("#tblListAdditionalTerm td").remove();
+                         $("#tblListAdditionalTerm").append("<td colspan='5' style='padding-left: 4%;font-size: larger;'>No Data.</td>");
+                     }
+                 }
+                 else {
+                     window.location.href = "/home/login";
+                 }
+             },
+                error: function (req, status, error) {
+                    // do something with error
+                    debugger
+
+
+                }
+            });
+    }
+    function updateadditionalcheckbox(termid) {
+        debugger
+        sampleadditionaltermstable.rows().eq(0).each(function (index) {
+            var data4 = sampleadditionaltermstable.row(index).data();
+            if (data4[0] == parseInt(termid)) {
+                if (document.getElementById('chkadditionalterm' + termid).checked == true) {
+                    data4[3] = 1;
+                }
+                else {
+                    data4[3] = 0;
+                }
+                sampleadditionaltermstable.row(index).data(data4);
+                sampleadditionaltermstable.draw();
+            }
+        });
+    }
+    $('#previousbutton3').click(function (event) {
+        event.preventDefault();
+        var val1 = $('#Pagenumber3').val();
+        var answer = parseFloat(val1) - 1 <= 0 ? 1 : parseFloat(val1) - 1;
+        PagingAdditionalTermsDiv(answer, "Additional");
+
+    });
+    $('#nextbutton3').click(function (event) {
+        event.preventDefault();
+        var val1 = $('#Pagenumber3').val();
+        var page = $('#Pagecount3').val();
+        var answer = parseFloat(val1) >= page ? parseFloat(val1) : parseFloat(val1) + 1
+        PagingAdditionalTermsDiv(answer, "Additional");
+    });
+    function onchangeevent3(textbox) {
+        debugger
+        var val1 = $('#Pagenumber3').val();
+        var val2 = $('#Pagecount3').val();
+        var old = textbox.oldvalue;
+        if (val1 <= val2 && val1 !== 0) {
+            PagingAdditionalTermsDiv(val1, "Additional");
+        }
+        else {
+            swal({
+                title: "Error",
+                text: "Invalid Page Number",
+                type: "error"
+            }).then(result => {
+                $('#Pagenumber3').val((old));
+                PagingAdditionalTermsDiv(old, "Additional")
+            });
+        }
+    }
+
+    function showPreview() {
+        if (samplemovietable.rows().count() == 0) {
+            debugger
+            swal({
+                title: "Alert!",
+                text: "Please enter Movie Details!",
+                type: "warning"
+            });
+            $("ul.ulstyle > li > button").click(function (e) {
+                $('#viewmve').addClass("aactive");
+                $('#cmplx').removeClass("aactive");
+                $('#scrng').removeClass("aactive");
+                $('#termsc').removeClass("aactive");
+                $('#termsdiv').removeClass("aactive");
+                $('#viwprv').removeClass("aactive");
+            });
+            $('#moviediv').show();
+            $('#complexDiv').hide();
+            $('#ScreeningTermsDiv').hide();
+            $('#TermsAndConditionsDiv').hide();
+            $('#AdditionalTermsDiv').hide();
+            $('#PreviewDiv').hide();
+        }
+        else if (samplecomplextable.rows().count() == 0) {
+            debugger
+            swal({
+                title: "Alert!",
+                text: "Complex List has no data!",
+                type: "warning"
+            });
+            $("ul.ulstyle > li > button").click(function (e) {
+                $('#cmplx').addClass("aactive");
+                $('#viewmve').removeClass("aactive");
+                $('#scrng').removeClass("aactive");
+                $('#termsc').removeClass("aactive");
+                $('#termsdiv').removeClass("aactive");
+                $('#viwprv').removeClass("aactive");
+            });
+            $('#complexDiv').show();
+            $('#ScreeningTermsDiv').hide();
+            $('#TermsAndConditionsDiv').hide();
+            $('#AdditionalTermsDiv').hide();
+            $('#PreviewDiv').hide();
+        }
+        else {
+
+            $("ul.ulstyle > li > button").click(function (e) {
+                $('#viwprv').addClass("aactive");
+                $('#viewmve').removeClass("aactive");
+                $('#scrng').removeClass("aactive");
+                $('#termsc').removeClass("aactive");
+                $('#cmplx').removeClass("aactive");
+                $('#termsdiv').removeClass("aactive");
+            });
+
+            var AgreementMov = [], AgreementComplexShow = [], AgreementTerms = [], AgreementStndTerm = [], AgreementAdvnsTerm = [];
+            samplemovietable.rows().eq(0).each(function (index) {
+                debugger
+                var data4 = samplemovietable.row(index).data();
+                var movie1 =
+                {
+                    "MovieId": "",
+                    "Movie_Name": "",
+                    "Movie_Banner": "",
+                    "Movie_starcast": "",
+                    "Account_Name": "",
+                    "Account_No": "",
+                    "Bank_Name": "",
+                    "IFSC_Code": "",
+                    "BookingThrough": "",
+                    "PeriodOfRun": "",
+                    "ReleaseDate": "",
+                    "Distributor_EmailId": "",
+                    "Movie_distributor":"",
+                    "Advance_Type":""
+                };
+                movie1.MovieId = data4[0];
+                movie1.Movie_Name = data4[1];
+                movie1.Movie_Banner = data4[2];
+                movie1.Movie_starcast = data4[3];
+                movie1.Account_Name = data4[4];
+                movie1.Account_No = data4[5];
+                movie1.Bank_Name = data4[6];
+                movie1.IFSC_Code = data4[7];
+                movie1.BookingThrough = data4[8];
+                movie1.PeriodOfRun = data4[9];
+                movie1.ReleaseDate = data4[10];
+                movie1.Distributor_EmailId = data4[11];
+                movie1.Movie_distributor = data4[12];
+                movie1.Advance_Type = data4[13];
+                AgreementMov.push(movie1);
+            });
+
+            samplecomplextable.rows().eq(0).each(function (index) {
+                debugger
+                var data4 = samplecomplextable.row(index).data();
+                var complex1 =
+                {
+                    "SlNo": "",
+                    "IsChecked": "",
+                    "ComplexId": "",
+                    "ComplexName": "",
+                    "District": "",
+                    "StationName": "",
+                    "Advance": "",
+                };
+                complex1.SlNo = data4[0];
+                complex1.IsChecked = data4[1];
+                complex1.ComplexId = data4[2];
+                complex1.ComplexName = data4[3];
+                complex1.District = data4[4];
+                complex1.StationName = data4[5];
+                complex1.Advance = data4[6];
+                AgreementComplexShow.push(complex1);
+            });
+
+            samplescreeningtermtable.rows().eq(0).each(function (index) {
+                debugger
+                var data4 = samplescreeningtermtable.row(index).data();
+                var term1 =
+                {
+                    "TermId": "",
+                    "Term": "",
+                    "Percentage": "",
+                    "IsChecked": "",
+
+                };
+                term1.TermId = data4[0];
+                term1.Term = data4[1];
+                term1.Percentage = data4[2];
+                term1.IsChecked = data4[3];
+                AgreementTerms.push(term1);
+            });
+
+            samplestandardtermtable.rows().eq(0).each(function (index) {
+                debugger
+                var data4 = samplestandardtermtable.row(index).data();
+                var term1 =
+                {
+                    "TermId": "",
+                    "Term": "",
+                    "Percentage": "",
+                    "IsChecked": "",
+
+                };
+                term1.TermId = data4[0];
+                term1.Term = data4[1];
+                term1.Percentage = data4[2];
+                term1.IsChecked = data4[3];
+                AgreementStndTerm.push(term1);
+            });
+
+            sampleadditionaltermstable.rows().eq(0).each(function (index) {
+                debugger
+                var data4 = sampleadditionaltermstable.row(index).data();
+                var term1 =
+                {
+                    "TermId": "",
+                    "Term": "",
+                    "Percentage": "",
+                    "IsChecked": "",
+
+                };
+                term1.TermId = data4[0];
+                term1.Term = data4[1];
+                term1.Percentage = data4[2];
+                term1.IsChecked = data4[3];
+                AgreementAdvnsTerm.push(term1);
+            });
+
+            AgreementMov = JSON.stringify({ 'AgreementMovieDatas': AgreementMov });
+            AgreementComplexShow = JSON.stringify({ 'ComplexShowDatas': AgreementComplexShow });
+            AgreementTerms = JSON.stringify({ 'AgreementTermDatas': AgreementTerms });
+            AgreementStndTerm = JSON.stringify({ 'AgreementStandardTermDatas': AgreementStndTerm });
+            AgreementAdvnsTerm = JSON.stringify({ 'AgreementAdvancedTermDatas': AgreementAdvnsTerm });
+
+            $.ajax({
+                type: "POST",
+                url: '/Agreement/CreateAgreement',
+                data: {
+                    'theatergroupid': theatergroupid, 'AgreementMov': AgreementMov, 'AgreementComplexShow': AgreementComplexShow, 'AgreementTerms': AgreementTerms, 'AgreementStndTerm': AgreementStndTerm, 'AgreementAdvnsTerm': AgreementAdvnsTerm
+                },
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                success: function (data) {
+                    debugger
+                    if (data[0].normaldata.includes("Error") != true) {
+                        var iframe = "";
+                        var ifr = document.getElementById('iframeshow');
+                        ifr.innerHTML = "";
+                       
+                        var width_screen = screen.width;
+                        
+                        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                            ifr.innerHTML = "";
+                            ifr.setAttribute("style", "height:475px;overflow-y: auto;margin-top: 30px;background: #777777;");
+                            renderPDF(data[0].arraydata, ifr);
+                        }
+                        else {
+                            ifr.setAttribute("style", "height:auto;overflow-y: auto;margin-top: 20px;");
+                            if ($('#iframe1').length > 0) {
+                                iframe = document.getElementById('iframe1');
+                            }
+                            else {
+                                iframe = document.createElement('iframe');
+                                iframe.setAttribute("id", "iframe1");
+                                jQuery('iframe').addClass('holds-the-iframe');
+                                //  iframe.setAttribute('style', 'margin-top: 30px;border:none;position:absolute;right:0; top:0; bottom:0; height:80%; width:100%; padding:20px;');
+                                iframe.setAttribute('style', 'border:none;position:relative;right:0; top:0; bottom:0; height:1200px; width:100%;');
+                            }
+                            debugger
+                            const contentType = 'application/pdf';
+                            const b64Data = data[0].normaldata;
+                            const blob = b64toBlob(b64Data, contentType);
+                            const blobUrl = URL.createObjectURL(blob);
+                            iframe.src = blobUrl;
+                            ifr.appendChild(iframe);
+                            iframe.onload = function () {
+                                setTimeout(doSomething, 2000);
+                            };
+                        }
+                        $('#iframe_loadDiv').hide();
+
+
+                    }
+                    else {
+                        setTimeout(doSomething, 5);
+                        $('#iframe_loadDiv').hide();
+                        $('<div style="font-size: 22px;margin-top: 13px;color: #000;">' + data[0].normaldata + '</div>').appendTo('#iframeshow');
+                    }
+
+                },
+                error: function (req, status, error) {
+                    // do something with error
+                }
+            });
+        }
+    }
+    function renderPDF(url, canvasContainer, options) {
+        debugger
+        var options1 = "";
+        if (screen.width === 767) {
+            options1 = options || { scale: 1 };
+        }
+        else {
+            options1 = options || { scale: 0.5 };
+        }
+
+        function renderPage(page) {
+            var viewport = page.getViewport(options1.scale);
+            var canvas = document.createElement('canvas');
+            var ctx = canvas.getContext('2d');
+            var renderContext = {
+                canvasContext: ctx,
+                viewport: viewport
+            };
+            canvas.setAttribute("style", "display: block;margin-left: auto;margin-right: auto;margin-top:20px;");
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            canvasContainer.appendChild(canvas);
+
+
+            page.render(renderContext);
+        }
+
+        function renderPages(pdfDoc) {
+            for (var num = 1; num <= pdfDoc.numPages; num++)
+                pdfDoc.getPage(num).then(renderPage);
+        }
+        PDFJS.disableWorker = true;
+        PDFJS.getDocument(url).then(renderPages);
+        setTimeout(doSomething, 2000);
+    }
+    function doSomething() {
+        $('#images-preloader1').hide();
+    }
+    const b64toBlob = (content, contentType) => {
+        contentType = contentType || '';
+        const sliceSize = 512;
+        // method which converts base64 to binary
+        const byteCharacters = window.atob(content);
+
+        const byteArrays = [];
+        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+            const slice = byteCharacters.slice(offset, offset + sliceSize);
+            const byteNumbers = new Array(slice.length);
+            for (let i = 0; i < slice.length; i++) {
+                byteNumbers[i] = slice.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            byteArrays.push(byteArray);
+        }
+        const blob = new Blob(byteArrays, {
+            type: contentType
+        }); // statement which creates the blob
+        return blob;
+    };
+
+    function saveDownloadPreview(saveAndDownload)
+    {
+            var AgreementMov = [], AgreementComplexShow = [], AgreementTerms = [], AgreementStndTerm = [], AgreementAdvnsTerm = [];
+            samplemovietable.rows().eq(0).each(function (index) {
+                debugger
+                var data4 = samplemovietable.row(index).data();
+                var movie1 =
+                {
+                    "MovieId": "",
+                    "Movie_Name": "",
+                    "Movie_Banner": "",
+                    "Movie_starcast": "",
+                    "Account_Name": "",
+                    "Account_No": "",
+                    "Bank_Name": "",
+                    "IFSC_Code": "",
+                    "BookingThrough": "",
+                    "PeriodOfRun": "",
+                    "ReleaseDate": "",
+                    "Distributor_EmailId": "",
+                    "Movie_distributor": "",
+                    "Advance_Type": ""
+                };
+                movie1.MovieId = data4[0];
+                movie1.Movie_Name = data4[1];
+                movie1.Movie_Banner = data4[2];
+                movie1.Movie_starcast = data4[3];
+                movie1.Account_Name = data4[4];
+                movie1.Account_No = data4[5];
+                movie1.Bank_Name = data4[6];
+                movie1.IFSC_Code = data4[7];
+                movie1.BookingThrough = data4[8];
+                movie1.PeriodOfRun = data4[9];
+                movie1.ReleaseDate = data4[10];
+                movie1.Distributor_EmailId = data4[11];
+                movie1.Movie_distributor = data4[12];
+                movie1.Advance_Type = data4[13];
+                AgreementMov.push(movie1);
+            });
+
+            samplecomplextable.rows().eq(0).each(function (index) {
+                debugger
+                var data4 = samplecomplextable.row(index).data();
+                var complex1 =
+                {
+                    "SlNo": "",
+                    "IsChecked": "",
+                    "ComplexId": "",
+                    "ComplexName": "",
+                    "District": "",
+                    "StationName": "",
+                    "Advance": "",
+                };
+                complex1.SlNo = data4[0];
+                complex1.IsChecked = data4[1];
+                complex1.ComplexId = data4[2];
+                complex1.ComplexName = data4[3];
+                complex1.District = data4[4];
+                complex1.StationName = data4[5];
+                complex1.Advance = data4[6];
+                AgreementComplexShow.push(complex1);
+            });
+
+            samplescreeningtermtable.rows().eq(0).each(function (index) {
+                debugger
+                var data4 = samplescreeningtermtable.row(index).data();
+                var term1 =
+                {
+                    "TermId": "",
+                    "Term": "",
+                    "Percentage": "",
+                    "IsChecked": "",
+
+                };
+                term1.TermId = data4[0];
+                term1.Term = data4[1];
+                term1.Percentage = data4[2];
+                term1.IsChecked = data4[3];
+                AgreementTerms.push(term1);
+            });
+
+            samplestandardtermtable.rows().eq(0).each(function (index) {
+                debugger
+                var data4 = samplestandardtermtable.row(index).data();
+                var term1 =
+                {
+                    "TermId": "",
+                    "Term": "",
+                    "Percentage": "",
+                    "IsChecked": "",
+
+                };
+                term1.TermId = data4[0];
+                term1.Term = data4[1];
+                term1.Percentage = data4[2];
+                term1.IsChecked = data4[3];
+                AgreementStndTerm.push(term1);
+            });
+
+            sampleadditionaltermstable.rows().eq(0).each(function (index) {
+                debugger
+            var data4 = sampleadditionaltermstable.row(index).data();
+                var term1 =
+                {
+                    "TermId": "",
+                    "Term": "",
+                    "Percentage": "",
+                    "IsChecked": "",
+
+                };
+                term1.TermId = data4[0];
+                term1.Term = data4[1];
+                term1.Percentage = data4[2];
+                term1.IsChecked = data4[3];
+                AgreementAdvnsTerm.push(term1);
+            });
+
+            AgreementMov = JSON.stringify({ 'AgreementMovieDatas': AgreementMov });
+            AgreementComplexShow = JSON.stringify({ 'ComplexShowDatas': AgreementComplexShow });
+            AgreementTerms = JSON.stringify({ 'AgreementTermDatas': AgreementTerms });
+            AgreementStndTerm = JSON.stringify({ 'AgreementStandardTermDatas': AgreementStndTerm });
+            AgreementAdvnsTerm = JSON.stringify({ 'AgreementAdvancedTermDatas': AgreementAdvnsTerm });
+
+        if (saveAndDownload == 1) {
+            saveAgreement(theatergroupid, AgreementMov, AgreementComplexShow, AgreementTerms, AgreementStndTerm, AgreementAdvnsTerm, agreementId);
+
+        }
+        else {
+            saveAndDownloadAgreement(theatergroupid, AgreementMov, AgreementComplexShow, AgreementTerms, AgreementStndTerm, AgreementAdvnsTerm, agreementId);
+
+        }
+    }
+    function saveAgreement(theatergroupid, AgreementMov, AgreementComplexShow, AgreementTerms, AgreementStndTerm, AgreementAdvnsTerm, agreementId) {
+        $.ajax({
+            type: "POST",
+            url: '/Agreement/SaveAgreement',
+            data: {
+                'theatergroupid': theatergroupid, 'AgreementMov': AgreementMov, 'AgreementComplexShow': AgreementComplexShow, 'AgreementTerms': AgreementTerms, 'AgreementStndTerm': AgreementStndTerm, 'AgreementAdvnsTerm': AgreementAdvnsTerm, 'agreementId': agreementId
+            },
+            contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+            success: function (response) {
+                debugger
+                if (response != null) {
+                    if (response != 0) {
+                            window.location.href = "/Agreement/AgreementViewList";
+                        //downloadpdf(response);
+                    }
+                }
+            },
+            error: function (req, status, error) {
+                // do something with error
+            }
+        });
+    }
+    function saveAndDownloadAgreement(theatergroupid, AgreementMov, AgreementComplexShow, AgreementTerms, AgreementStndTerm, AgreementAdvnsTerm, agreementId) {
+        $.ajax({
+            type: "POST",
+            url: '/Agreement/SaveAgreement',
+            data: {
+                'theatergroupid': theatergroupid, 'AgreementMov': AgreementMov, 'AgreementComplexShow': AgreementComplexShow, 'AgreementTerms': AgreementTerms, 'AgreementStndTerm': AgreementStndTerm, 'AgreementAdvnsTerm': AgreementAdvnsTerm, 'agreementId': agreementId
+            },
+            contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+            success: function (response) {
+                debugger
+                if (response != null) {
+                    if (response != 0) {
+                        debugger
+                            downloadpdf(response);
+                            window.location.href = "/Agreement/AgreementViewList";
+                    }
+                }
+            },
+            error: function (req, status, error) {
+                // do something with error
+            }
+        });
+    }
+    function downloadpdf(agreementId) {
+        debugger
+         $.ajax({
+                type: "GET",
+                async: false,
+                url: '@Url.Action("function_showAgreement", "agreement")',
+                data: { "agreementId": agreementId},
+                dataType: "json",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                success: function (data) {
+                    debugger
+                    if (data !== "<") {
+                        const linkSource = data[0].arraydata;
+                              const downloadLink = document.createElement("a");
+                              const fileName = "agreement.pdf";
+                              downloadLink.href = linkSource;
+                              downloadLink.download = fileName;
+                              downloadLink.click();
+                    }
+                },
+                error: function (req, status, error) {
+                    // do something with error
+                    debugger
+
+
+                }
+            });
+    }
+    function goToList() {
+        window.location.href = "/agreement/agreementtheatergrouplist";
+    }
+</script>

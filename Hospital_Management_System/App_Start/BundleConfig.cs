@@ -20,7 +20,7 @@ namespace Hospital_Management_System
 
             StyleBundle myCssBundle = new StyleBundle("~/Content/MyCss");
 
-            myCssBundle.Include("~/Content/bootstrap.min.css",
+            myCssBundle.Include("~/CSS/Styles.css", "~/Content/bootstrap.min.css",
                                 "~/Content/DataTables/css/jquery.dataTables.min.css",
                                 "~/Content/Site.css",
                                 "~/Content/bootstrap-theme.min.css",

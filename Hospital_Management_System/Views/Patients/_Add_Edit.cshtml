@@ -3,22 +3,23 @@
 
 <form name="addform" id="addform">
     <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel" style="padding-left:143px;color:black">PATIENT DETAILS</h4>
-        <button type="button" style="margin-left:147px"  class="close" data-dismiss="modal" id="close" aria-label="Close">
+        <button type="button" style="text-align:right" class="close" data-dismiss="modal" id="close" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
+        <h4 class="modal-title" id="exampleModalLabel" style="text-align:center;color:black">PATIENT DETAILS</h4>
+
     </div>
-    <div class="modal-body" style=" color: white; background-color: black;">
+    <div class="modal-body" style="text-align: center; color: white; background-color: black;">
 
         @Html.AntiForgeryToken()
 
-        <div class="form-group"> 
+        <div class="form-group" style="display:inline-table">
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             @Html.HiddenFor(model => model.Id)
 
             <div class="form-horizontal">
-                @Html.LabelFor(model => model.Name, "Name", htmlAttributes: new { @class = "control-label col-md-2", style = "padding-right:20px" })
-                <div class="col-md-10" style="padding-left: 9%">
+                @Html.LabelFor(model => model.Name, "Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10" style="padding-left: 10% ">
                     @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control disable", @id = "PatientName", style = "width:327px;", @onkeyup = "validatename()" } })
                     @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", @id = "PatName" })
                 </div>
@@ -28,9 +29,9 @@
             <br />
 
             <div class="form-horizontal">
-                @Html.LabelFor(model => model.Age, "Age", htmlAttributes: new { @class = "control-label col-md-2", style = "padding-right:33px" })
-                <div class="col-md-10" style="padding-left: 9%">
-                    @Html.EditorFor(model => model.Age, new { htmlAttributes = new {@class = "form-control disable",@id = "PatientAge", style = "width:327px;",@onkeyup = "validateage()"} })
+                @Html.LabelFor(model => model.Age, "Age", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10" style="padding-left: 10%">
+                    @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control disable", @id = "PatientAge", style = "width:327px;", @onkeyup = "validateage()" } })
                     @Html.ValidationMessageFor(model => model.Age, "", new { @class = "text-danger", @id = "PatAge" })
                 </div>
             </div>
@@ -39,75 +40,78 @@
             <br />
 
             <div class="form-horizontal">
-                @Html.LabelFor(model => model.Gender, "Gender", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Gender, "Gender", htmlAttributes: new { @class = "control-label col-md-2"  })
                 <div class="col-md-10" style="padding-left: 9%">
                     <select class=" form-select disable" name="Gender" id="Gender" style="width: 327px; height: 35px; color: #555; font-size: small; " onchange="validategender()">
-            <option value="">--Select--</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Others">Others</option>
-        </select>
-                      @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger", @id = "PatGender" })
+                        <option value="">--Select--</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Others">Others</option>
+                    </select>
+                    @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger", @id = "PatGender" })
                 </div>
-                <br />
-                <br />
-                <br />
+            </div>
+            <br />
+            <br />
+            <br />
 
-                <div class="form-horizontal">
-                    @Html.LabelFor(model => model.Department, "Department", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10" style="padding-left: 9%">
-                        <select class="form-select disable" name="Department" id="Department" style="width: 327px; height: 35px; color:#555; font-size: small;" onchange="validatedepartment()">
-                            <option value="choose" disabled hidden>select</option>
-                            <option value="">--Select--</option>
-                            <option value="Gastroenterology">Gastroenterology</option>
-                            <option value="Gynecology">Gynecology</option>
-                            <option value="Critical Care">Critical Care</option>
-                            <option value="Cardiology">Cardiology</option>
-                        </select>
-                        @Html.ValidationMessageFor(model => model.Department, "", new { @class = "text-danger", @id = "PatDepartment" })
-                    </div>
-                    <br />
-                    <br />
-                    <br />
+            <div class="form-horizontal">
+                @Html.LabelFor(model => model.Department, "Department", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10" style="padding-left: 9%">
+                    <select class="form-select disable" name="Department" id="Department" style="width: 327px; height: 35px; color:#555; font-size: small;" onchange="validatedepartment()">
+                        <option value="choose" disabled hidden>select</option>
+                        <option value="">--Select--</option>
+                        <option value="Gastroenterology">Gastroenterology</option>
+                        <option value="Gynecology">Gynecology</option>
+                        <option value="Critical Care">Critical Care</option>
+                        <option value="Cardiology">Cardiology</option>
+                    </select>
+                    @Html.ValidationMessageFor(model => model.Department, "", new { @class = "text-danger", @id = "PatDepartment" })
+                </div>
 
-                    <div class="form-horizontal">
-                        @Html.LabelFor(model => model.CovidTestResult, "Covid Result", htmlAttributes: new { @class = "control-label col-md-5", style = "white-space:nowrap; width:16%" })
-                        <div class="col-md-10" style="padding-left:10%">
-                            <select class="form-select disable" name="CovidTestResult" id="CovidTestResult" style="width: 327px; height: 35px; color: #555; font-size: small;" onchange="validateresult()">
-                                <option value="choose" disabled hidden>select</option>
-                                <option value="">--Select--</option>
-                                <option value="Positive">Positive</option>
-                                <option value="Negative">Negative</option>
-                            </select>
-                            @Html.ValidationMessageFor(model => model.CovidTestResult, "", new { @class = "text-danger", @id = "PatResult" })
-                        </div>
-                    </div>
-                    <br />
-                    <br />
-                    <br />
-                    <div class="form-horizontal">
-                        @Html.LabelFor(model => model.Contact, "Contact", htmlAttributes: new { @class = "control-label col-md-4", style = "width:76px" })
-                        <div class="col-md-10" style="padding-left:13%">
-                            @Html.EditorFor(model => model.Contact, new { htmlAttributes = new { @class = "form-control disable", @id = "PatientContact", style = "width:327px;", @onkeyup = "validatecontact()" } })
-                            @Html.ValidationMessageFor(model => model.Contact, "", new { @class = "text-danger", @id = "PatContact" })
-                        </div>
-                    </div>
-                    <br />
-                    <br />
-                    <br />
-                    <div class="form-group form-gap">
-                        <div class="control-label col-md-3"></div>
-                        <div class="col-md-8">
-                            <span style="margin-right:1px">
-                                @Html.EditorFor(model => model.InPatient, new { htmlAttributes = new { @class = "disable" } })
-                            </span><b>In-Patient</b>
-                            @Html.ValidationMessageFor(model => model.InPatient, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+            </div>
+            <br />
+            <br />
+            <br />
+
+            <div class="form-horizontal">
+                @Html.LabelFor(model => model.CovidTestResult, "Covid Result", htmlAttributes: new { @class = "control-label col-md-5", style = "white-space:nowrap; width:16%" })
+                <div class="col-md-10" style="padding-left:10%">
+                    <select class="form-select disable" name="CovidTestResult" id="CovidTestResult" style="width: 327px; height: 35px; color: #555; font-size: small;" onchange="validateresult()">
+                        <option value="choose" disabled hidden>select</option>
+                        <option value="">--Select--</option>
+                        <option value="Positive">Positive</option>
+                        <option value="Negative">Negative</option>
+                    </select>
+                    @Html.ValidationMessageFor(model => model.CovidTestResult, "", new { @class = "text-danger", @id = "PatResult" })
+                </div>
+            </div>
+            <br />
+            <br />
+            <br />
+            <div class="form-horizontal">
+                @Html.LabelFor(model => model.Contact, "Contact", htmlAttributes: new { @class = "control-label col-md-4", style = "width:68px" })
+                <div class="col-md-10" style="padding-left: 10%">
+                    @Html.EditorFor(model => model.Contact, new { htmlAttributes = new { @class = "form-control disable", @id = "PatientContact", style = "width:327px;", @onkeyup = "validatecontact()" } })
+                    @Html.ValidationMessageFor(model => model.Contact, "", new { @class = "text-danger", @id = "PatContact" })
+                </div>
+            </div>
+            <br />
+            <br />
+            <br />
+            <div class="form-group form-gap">
+                @*<div class="control-label col-md-3"></div>*@
+                <div class="col-md-8">
+                    <span style="margin-left:13%">
+                        @Html.EditorFor(model => model.InPatient, new { htmlAttributes = new { @class = "disable" } })
+                    </span><b>In-Patient</b>
+                    @Html.ValidationMessageFor(model => model.InPatient, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
     </div>
+  
+   
 
     <div class="modal-footer"style="padding-right:28px">
         <button type="button" id="btnEdit" class="btn btn-warning" onclick="editPatient()" style="display:none;width:60px">Edit</button>
