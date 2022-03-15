@@ -17,7 +17,7 @@ input::-webkit-inner-spin-button {
     margin-left: 25px;
 }
 .dataTables_scrollBody {
-    overflow-x: auto !important;
+    overflow-x: hidden !important;
     overflow-y: auto !important;
 }
 .blue{
@@ -63,4 +63,11 @@ input::-webkit-inner-spin-button {
 }
 .excel {
     cursor: pointer;
+}
+.glyphicon-plus-sign {
+    color: green;
+}
+
+.glyphicon-minus-sign {
+    color: red;
 }

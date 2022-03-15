@@ -24,7 +24,8 @@ namespace Hospital_Management_System
                                 "~/Content/DataTables/css/jquery.dataTables.min.css",
                                 "~/Content/Site.css",
                                 "~/Content/bootstrap-theme.min.css",
-                                "~/Content/toastr.min.css");
+                                "~/Content/toastr.min.css", 
+                                "~/Content/DataTables/css/responsive.dataTables.min.css");
 
             ScriptBundle myScriptBundle = new ScriptBundle("~/Scripts/MyScript");
 
@@ -37,7 +38,8 @@ namespace Hospital_Management_System
                                     "~/Scripts/jszip.min.js",
                                     "~/Scripts/DataTables/buttons.html5.min.js",
                                     "~/Scripts/DataTables/buttons.print.min.js",
-                                    "~/Scripts/DataTables/dataTables.buttons.min.js");
+                                    "~/Scripts/DataTables/dataTables.buttons.min.js",
+                                    "~/Scripts/DataTables/dataTables.responsive.min.js");
 
             //bundles.Add(new ScriptBundle("~/bundles/jquery",jqueryCdnPath).Include("~/Scripts/jquery-{version}.js"));
 

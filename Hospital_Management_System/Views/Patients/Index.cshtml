@@ -39,6 +39,7 @@
                 "processing": true,
                 "serverSide": true,
                 "filter": true,
+                "order": [[1, "desc"]],
                 "dom": '<"top"Bf>rt<"bottom"ilp><"clear">',
                 buttons: [
                     {
@@ -46,17 +47,27 @@
                         title: "Hospital Management System",
                         autoFilter: true,
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5]
+                            columns: [ 1, 2, 3, 4, 5,6]
                         }
                     }
                 ],
                 "scrollY": "380px",
-                "scrollX": "380px",
+              /*  "scrollX": "380px",*/
                 "scrollCollapse": false,
-
-                "columnDefs": [{ "targets": [1, 2, 3, 4, 5, 6, 7], className: 'dt-head-center dt-body-center' },
+                responsive: {
+                    details: {
+                        type: 'column'
+                    }
+                },
+                "columnDefs": [
+                    {
+                        className: 'dtr-control',
+                        orderable: false,
+                        targets: 0
+                    },
+                    { "targets": [ 2, 3, 4, 5, 6, 7,8], className: 'dt-head-center dt-body-center' },
                 {
-                    'targets': [5, 7],
+                    'targets': [6, 8],
                     'orderable': false,
                 }],
 
@@ -69,6 +80,11 @@
                     "datatype": "json"
                 },
                 "columns": [
+                    {
+                        "data": null, 
+                        "width": "1%",
+                        "defaultContent": '<i onclick="myFunction(this)" class = "glyphicon glyphicon-plus-sign"> </ i>',
+                    },
                     {
                         "data": "Name",
                         "name": "Name",
@@ -158,7 +174,9 @@
             window.frames["pdf_frame"].window.print();
         });
     }
-    
+    function myFunction(x) {
+        x.classList.toggle("glyphicon-minus-sign");
+    }
 </script>
 <p>
     <div style="padding-left:0rem">
@@ -192,7 +210,7 @@
         <thead>
 
             <tr>
-
+                <th></th>
                 <th>Name</th>
                 <th>Age</th>
                 <th>Gender</th>
