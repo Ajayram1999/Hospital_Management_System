@@ -1,0 +1,48 @@
+﻿@model Hospital_Management_System.Models.Login
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row" >
+    <div class="col-md-8">
+        <section id="loginForm">
+            @using (Html.BeginForm("Login", "Patients", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <div style="padding-left:65%;margin-top:10%;">
+                    <h4>Login To Continue</h4>
+                </div>
+                <hr />
+                <br />
+                <br />
+                <br />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group" style="padding-left:40%;">
+                    @Html.LabelFor(m => m.Email, "Email Id:", new { @class = "col-md-4 control-label" })
+                    <div class="col-md-8" >
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <br />
+                <div class="form-group" style="padding-left:40%;">
+                    @Html.LabelFor(m => m.Password, new { @class = "col-md-4 control-label" })
+                    <div class="col-md-8" >
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <br />
+                <div class="form-group" style="padding-left:63%;">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Login" class="btn btn-primary" />
+                    </div>
+                </div>
+                <br />
+                <div style="padding-left:66%;">
+                    <a onclick="location.href='@Url.Action("password", "Patients")'">Forgot Password...?</a>
+                </div>
+            }
+        </section>
+    </div>
+</div>

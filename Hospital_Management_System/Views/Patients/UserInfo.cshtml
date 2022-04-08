@@ -1,6 +1,9 @@
-﻿@{
-    ViewBag.Title = "Index";
+﻿
+@{
+    ViewBag.Title = "UserInfo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <style>
     .backcolour table thead tr {
         background-color: white;
@@ -32,6 +35,24 @@
 <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
 
 <script>
+    function format(res) {
+        return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+            '<tr>' +
+            '<td>Created By:</td>' +
+            '<td>' + res.CreatedName + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td>Created Date:</td>' +
+            '<td>' + res.CreatedDate + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td>Modified By:</td>' +
+            '<td>' + res.ModifiedName + '</td>' +
+            '</tr>' +
+            '<td>Modified Date:</td>' +
+            '<td>' + res.ModifiedDate + '</td>'
+        '</table>';
+    }
     var dataTable;
     $(document).ready(function () {
         dataTable = $('#myTable').DataTable(
@@ -47,16 +68,17 @@
                         title: "Hospital Management System",
                         autoFilter: true,
                         exportOptions: {
-                            columns: [ 1, 2, 3, 4, 5,6]
+                            columns: [1, 2, 3, 4, 5, 6,7,8]
                         }
                     }
                 ],
                 "scrollY": "380px",
-              /*  "scrollX": "380px",*/
+                /*  "scrollX": "380px",*/
                 "scrollCollapse": false,
                 responsive: {
                     details: {
-                        type: 'column'
+                        type: 'column',
+                        target:'tr'
                     }
                 },
                 "columnDefs": [
@@ -65,85 +87,98 @@
                         orderable: false,
                         targets: 0
                     },
-                    { "targets": [ 2, 3, 4, 5, 6, 7,8], className: 'dt-head-center dt-body-center' },
-                {
-                    'targets': [6, 8],
-                    'orderable': false,
-                }],
+                    { "targets": [2, 3, 4, 5], className: 'dt-head-center dt-body-center' },
+                    {
+                        'targets': [5],
+                        'orderable': false,
+                    }],
 
 
 
 
                 "ajax": {
-                    "url": "/Patients/GetPat",
+                    "url": "/Patients/GetEmployeeDetails",
                     "type": "POST",
                     "datatype": "json"
                 },
                 "columns": [
                     {
-                        "data": null, 
+                        "data": null,
                         "width": "1%",
                         "defaultContent": '<i onclick="myFunction(this)" class = "glyphicon glyphicon-plus-sign"> </ i>',
                     },
                     {
                         "data": "Name",
                         "name": "Name",
-                        "width": "15%",
+                        "width": "8%",
 
 
                     },
                     {
-                        "data": "Age",
-                        "name": "Age",
+                        "data": "Designation",
+                        "name": "Designation",
                         "width": "3%",
 
                     },
                     {
-                        "data": "Gender",
-                        "name": "Gender",
+                        "data": "Email",
+                        "name": "Email",
                         "width": "8%",
 
                     },
                     {
-                        "data": "Department",
-                        "name": "Department",
+                        "data": "ContactNo",
+                        "name": "ContactNo",
                         "width": "8%",
 
                     },
-                    {
-                        "data": "CovidTestResult",
-                        "name": "CovidTestResult",
-                        "width": "18%",
+                    //{
+                    //    "data": "CreatedBy",
+                    //    "name": "CreatedBy",
+                    //    "width": "18%",
 
-                    },
-                    {
-                        "data": "Contact",
-                        "name": "Contact",
-                        "width": "10%",
+                    //},
+                    //{
+                    //    "data": "CreatedDate",
+                    //    "name": "CreatedDate",
+                    //    "width": "10%",
 
-                    },
-                    {
-                        "data": "InPatient",
-                        "name": "InPatient",
-                        "type": "bool",
-                        "width": "15%",
-                        "render": function (value) {
-                            if (value === true) return "Yes";
-                            else return "No";
-                        }
-                    },
+                    //},
+                    //{
+                    //    "data": "ModifiedBy",
+                    //    "name": "ModifiedBy",
+                    //    "width": "15%",
+                    //},
+                    //{
+                    //    "data": "ModifiedDate",
+                    //    "name": "ModifiedDate",
+                    //    "width": "15%",
+                    //},
                     {
                         "data": "Id",
-                        "width": "11%",
+                        "width": "8%",
                         "render": function (data, type, full, meta) {
 
-                            return '<a class="blue" title="View" onclick="viewPatient(' + full.Id + ')" ><span class="glyphicon glyphicon-eye-open"></span></a> <a class="Yellow space" title="Edit" onclick="viewEdit(' + full.Id + ')"><span class="glyphicon glyphicon-pencil"></span></a>  <a class="Red" title="Delete" onclick="viewdelete(' + full.Id + ')"><span class="glyphicon glyphicon-trash"></span></a>';
+                            return '<a class="blue" title="View" onclick="viewemployee(' + full.Id + ')" ><span class="glyphicon glyphicon-eye-open"></span></a> <a class="Yellow space" title="Edit" onclick="viewEditemployee(' + full.Id + ')"><span class="glyphicon glyphicon-pencil"></span></a>  <a class="Red" title="Delete" onclick="viewdeleteemployee(' + full.Id + ')"><span class="glyphicon glyphicon-trash"></span></a>';
                         }
                     },
                 ]
             });
+        $('#myTable tbody').on('click', 'td.dtr-control', function () {
+            var tr = $(this).closest('tr');
+            var row = dataTable.row(tr);
+
+            if (row.child.isShown()) {
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+                row.child(format(row.data())).show();
+                tr.addClass('shown');
+            }
+        });
     });
-    $(document).on('click', '#excel', function () {
+    $(document).on('click', '#excels', function () {
         var info = dataTable.page.info();
         pageLength = info.length;
         dataTable.page.len(info.recordsTotal).draw();
@@ -159,19 +194,19 @@
     function current() {
         dataTable.page.len(pageLength).draw();
     }
-    $(document).on('click', '#pdf', function () {
-        $.get("/Patients/Print/pdf", function (res) {
+    $(document).on('click', '#pdfs', function () {
+        $.get("/Patients/Prints", function (res) {
             $("#printbody").html(res);
             $('#printmodal').modal('show');
         });
     })
 
-    function printDiv() {
-        $.get("/Patients/Print/pdf", function (res) {
+    function printDivs() {
+        $.get("/Patients/Prints", function (res) {
             $("#printbody").html(res);
             $('#printmodal').modal('show');
-            window.frames["pdf_frame"].window.focus();
-            window.frames["pdf_frame"].window.print();
+            window.frames["pdf_frames"].window.focus();
+            window.frames["pdf_frames"].window.print();
         });
     }
     function myFunction(x) {
@@ -182,25 +217,25 @@
 <p>
     <div style="padding-left:0rem">
         <div style="padding-bottom:-10rem">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addPatient"
-                    onclick="createmodal()">
-                Add Patient
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registeremployee"
+                    onclick="registermodal()">
+                Register New Employee
             </button>
 
-            <div class="btn-group" >
-                <button class="btn btn-primary print"  onclick="printDiv()">Print</button>
+            <div class="btn-group">
+                <button class="btn btn-primary print" onclick="printDivs()">Print</button>
 
                 <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" style=" color: white; height:34px" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="glyphicon glyphicon-chevron-down"></span>
                 </button>
-                <div class="dropdown-menu" >
-                    <span class="pdf dropdown-item" id="pdf">View/Save as PDF</span>
-                    <span class="excel dropdown-item" id="excel">Save as Excel</span>
+                <div class="dropdown-menu">
+                    <span class="pdf dropdown-item" id="pdfs">View/Save as PDF</span>
+                    <span class="excel dropdown-item" id="excels">Save as Excel</span>
                 </div>
             </div>
         </div>
     </div>
-    
+
 </p>
 
 <div>
@@ -212,12 +247,13 @@
             <tr>
                 <th></th>
                 <th>Name</th>
-                <th>Age</th>
-                <th>Gender</th>
-                <th>Department</th>
-                <th>Covid Result</th>
-                <th>Contact </th>
-                <th>In Patient</th>
+                <th>Designation</th>
+                <th>Email</th>
+                <th>Contact No.</th>
+                @*<th>Created By</th>
+                <th>Created Date</th>
+                <th>Modified By</th>
+                <th>Modified Date</th>*@
                 <th>Action</th>
 
             </tr>
@@ -230,28 +266,25 @@
 </div>
 
 <script>
-    function createmodal() {
-        console.log("create");
-        $.get("/Patients/Create", { ActionType: "Add" }, function (result) {
-            console.log(result);
+    function registermodal() {
+        $.get("/Patients/Register", { ActionType: "Add" }, function (result) {
             $('#datamodalbody').html(result);
             $('#datamodal').modal('show');
             btnEdit.style.display = "none";
             btnSave.style.display = "none";
         })
     }
-    function createPatient() {
+    function registeremployee() {
         var modal = $("#datamodal");
         var form = $('form[name="addform"]');
         var name = validatename();
-        var age = validateage();
+        var email = validateemail();
         var contact = validatecontact();
-        validategender();
-        validatedepartment();
-        validateresult();
+        var password = validatepassword();
+        validatedesignation();
         var data = form.serialize();
-        if (name && age && contact) {
-            $.post("/Patients/Create", data, function (res) {
+        if (name && email && contact && password) {
+            $.post("/Patients/Register", data, function (res) {
                 if (res) {
                     toastr.options = {
                         "closeButton": true,
@@ -269,7 +302,7 @@
                         "showMethod": "fadeIn",
                         "hideMethod": "fadeOut"
                     }
-                    toastr["success"]("Patient added successfully!")
+                    toastr["success"]("Employee added successfully!")
 
 
                     modal.modal('hide');
@@ -278,8 +311,9 @@
             })
         }
     }
-    function viewPatient(id) {
-        $.get("/Patients/Edit", { operation: "Edit", id: id }, function (result) {
+
+    function viewemployee(id) {
+        $.get("/Patients/Edituser", { operation: "Edit", id: id }, function (result) {
             $('#datamodalbody').html(result);
             $('#datamodal').modal('show');
             $('.disable').attr('disabled', true);
@@ -287,36 +321,37 @@
             document.getElementById("btnSave").disabled = true;
             $('#btnEdit').show();
             $('#btnSave').hide();
+            $('#Passwordhide').hide();
         })
     }
-    function viewEdit(id) {
-        $.get("/Patients/Edit", { operation: "Edit", id: id }, function (result) {
+    function viewEditemployee(id) {
+        $.get("/Patients/Edituser", { operation: "Edit", id: id }, function (result) {
             $('#datamodalbody').html(result);
             $('#datamodal').modal('show');
             $('.disable').attr('disabled', false);
             addsave.style.display = "none";
             document.getElementById("btnSave").disabled = false;
             $('#btnEdit').hide();
+            $('#Passwordhide').hide();
         })
     }
-    function editPatient() {
+    function editemployee() {
         $('.disable').attr('disabled', false);
         document.getElementById("btnSave").disabled = false;
         $('#btnSave').show();
         $('#btnEdit').hide();
     }
-    function updatePatient() {
+    function updateemployee() {
         var modal = $("#datamodal");
         var form = $('form[name="addform"]');
-        var data = form.serialize();
         var name = validatename();
-        var age = validateage();
+        var email = validateemail();
         var contact = validatecontact();
-        validatedepartment();
-        validategender();
-        validateresult();
-        if (name && age && contact) {
-            $.post("/Patients/Edit", data, function (res) {
+        var password = validatepassword();
+        validatedesignation();
+        var data = form.serialize();
+        
+            $.post("/Patients/Edituser", data, function (res) {
                 if (res) {
                     toastr.options = {
                         "closeButton": true,
@@ -334,27 +369,27 @@
                         "showMethod": "fadeIn",
                         "hideMethod": "fadeOut"
                     }
-                    toastr["success"]("Patient updated successfully!")
+                    toastr["success"]("Employee updated successfully!")
 
                     $("#datamodal").modal('hide');
                     dataTable.ajax.reload(null, false);
                 }
             })
-        }
+        
     }
-    function viewdelete(id) {
-        $.get("/Patients/Delete", { id: id }, function (res) {
+    function viewdeleteemployee(id) {
+        $.get("/Patients/Deleteuser", { id: id }, function (res) {
             if (res) {
                 $('#datamodalbody').html(res);
                 $('#datamodal').modal('show');
             }
         })
     }
-    function DeletePatient() {
+    function Deleteemployee() {
         var modal = $("#datamodal");
         var form = $('form[name="delete"]');
         var data = form.serialize();
-        $.post("/Patients/Delete", data, function (res) {
+        $.post("/Patients/Deleteuser", data, function (res) {
             if (res) {
                 toastr.options = {
                     "closeButton": true,
@@ -372,7 +407,7 @@
                     "showMethod": "fadeIn",
                     "hideMethod": "fadeOut"
                 }
-                toastr["error"]("Patient deleted successfully!")
+                toastr["error"]("Employee deleted successfully!")
 
                 modal.modal('hide');
                 dataTable.ajax.reload(null, false);
@@ -384,9 +419,6 @@
             $('#close')[0].click();
         }
     });
-    function preventBack() { window.history.forward(); }
-    setTimeout("preventBack()", 0);
-    window.onunload = function () { null };
 </script>
 <div class="modal fade" id="datamodal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog " role="document" style="margin-top:10%">
@@ -395,7 +427,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade bd-example-modal-lg"  id="printmodal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="printModalLabel" aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" id="printmodal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="printModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" style="width:94%;margin-left: 3%; margin-right: 3% ;margin-top:10%" role="document">
 
         <div class="modal-content" style="width:100%" id="printmodalcontent">
@@ -411,3 +443,4 @@
         </div>
     </div>
 </div>
+

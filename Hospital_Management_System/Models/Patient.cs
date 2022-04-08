@@ -43,6 +43,16 @@ namespace Hospital_Management_System.Models
 
         public bool InPatient { get; set; }
         public int Deleted { get; set; }
+        [Required]
+        public int CreatedBy { get; set; }
+        [Required]
+        public string CreatedDate { get; set; }
+        public string CreatedName { get; set; }
+        public string ModifiedName { get; set; }
+        [Required]
+        public int ModifiedBy { get; set; }
+        [Required]
+        public string ModifiedDate { get; set; }
         public Operations ActionType { get; set; }
     }
 }

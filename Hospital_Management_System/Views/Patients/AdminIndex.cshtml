@@ -1,5 +1,6 @@
 ﻿@{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
     .backcolour table thead tr {
@@ -32,6 +33,24 @@
 <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
 
 <script>
+    function format(res) {
+        return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+            '<tr>' +
+            '<td>Created By:</td>' +
+            '<td>' + res.CreatedName + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td>Created Date:</td>' +
+            '<td>' + res.CreatedDate + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td>Modified By:</td>' +
+            '<td>' + res.ModifiedName + '</td>' +
+            '</tr>' +
+            '<td>Modified Date:</td>' +
+            '<td>' + res.ModifiedDate + '</td>'
+        '</table>';
+    }
     var dataTable;
     $(document).ready(function () {
         dataTable = $('#myTable').DataTable(
@@ -56,7 +75,8 @@
                 "scrollCollapse": false,
                 responsive: {
                     details: {
-                        type: 'column'
+                        type: 'column',
+                        target: 'tr'
                     }
                 },
                 "columnDefs": [
@@ -81,7 +101,7 @@
                 },
                 "columns": [
                     {
-                        "data": null, 
+                        "data": null,
                         "width": "1%",
                         "defaultContent": '<i onclick="myFunction(this)" class = "glyphicon glyphicon-plus-sign"> </ i>',
                     },
@@ -142,6 +162,19 @@
                     },
                 ]
             });
+        $('#myTable tbody').on('click', 'td.dtr-control', function () {
+            var tr = $(this).closest('tr');
+            var row = dataTable.row(tr);
+
+            if (row.child.isShown()) {
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+                row.child(format(row.data())).show();
+                tr.addClass('shown');
+            }
+        });
     });
     $(document).on('click', '#excel', function () {
         var info = dataTable.page.info();
@@ -180,6 +213,7 @@
 
 </script>
 <p>
+    
     <div style="padding-left:0rem">
         <div style="padding-bottom:-10rem">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addPatient"
@@ -187,20 +221,20 @@
                 Add Patient
             </button>
 
-            <div class="btn-group" >
-                <button class="btn btn-primary print"  onclick="printDiv()">Print</button>
+            <div class="btn-group">
+                <button class="btn btn-primary print" onclick="printDiv()">Print</button>
 
                 <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" style=" color: white; height:34px" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="glyphicon glyphicon-chevron-down"></span>
                 </button>
-                <div class="dropdown-menu" >
+                <div class="dropdown-menu">
                     <span class="pdf dropdown-item" id="pdf">View/Save as PDF</span>
                     <span class="excel dropdown-item" id="excel">Save as Excel</span>
                 </div>
             </div>
         </div>
     </div>
-    
+
 </p>
 
 <div>
@@ -230,6 +264,12 @@
 </div>
 
 <script>
+    function registermodal() {
+        $.get("/Patients/Register", function (result) {
+            $('#datamodalbody').html(result);
+            $('#datamodal').modal('show');
+        })
+    }
     function createmodal() {
         console.log("create");
         $.get("/Patients/Create", { ActionType: "Add" }, function (result) {
@@ -395,7 +435,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade bd-example-modal-lg"  id="printmodal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="printModalLabel" aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" id="printmodal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="printModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" style="width:94%;margin-left: 3%; margin-right: 3% ;margin-top:10%" role="document">
 
         <div class="modal-content" style="width:100%" id="printmodalcontent">

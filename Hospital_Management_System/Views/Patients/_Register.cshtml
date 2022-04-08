@@ -1,0 +1,228 @@
+﻿@model Hospital_Management_System.Models.RegisterEmployee
+@using Hospital_Library.Enum;
+
+
+<form name="addform" id="addform">
+    <div class="modal-header">
+        <button type="button" style="text-align:right" class="close" data-dismiss="modal" id="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="exampleModalLabel" style="text-align:center;color:black">REGISTER EMPLOYEE</h4>
+
+    </div>
+    <div class="modal-body" style="text-align: center; color: white; background-color: black;">
+        @Html.AntiForgeryToken()
+        <div class="form-group" style="display:inline-table">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
+
+            <div class="form-horizontal">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10" style="padding-left: 15% ">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control disable", @id = "EmployeeName", @onkeyup = "validatename()" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", @id = "EmpName" })
+                </div>
+            </div>
+            <br />
+            <br />
+            <br />
+            <div class="form-horizontal">
+                @Html.LabelFor(model => model.Designation, "Designation:", htmlAttributes: new { @class = "control-label col-md-5", style = "white-space:nowrap; width:16%" })
+                <div class="col-md-10" style="padding-left:15%">
+                    <select class="form-select disable" name="Designation" id="Designation" style="width: 101%; height: 30px; color: #555; font-size: small;" onchange="validatedesignation()">
+                        <option value="choose" disabled hidden>select</option>
+                        <option value="">--Select--</option>
+                        <option value="Manager">Manager</option>
+                        <option value="Receptionist">Receptionist</option>
+                        <option value="Waiter">Waiter</option>
+                    </select>
+                    @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger", @id = "EmpDesignation" })
+                </div>
+            </div>
+            <br />
+            <br />
+            <br />
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email, "Email Id:", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10" style="padding-left: 15% ">
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control disable", @id = "EmployeeEmail", @onkeyup = "validateemail()" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger", @id = "EmpEmail" })
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="form-group">
+                @Html.LabelFor(model => model.ContactNo, "Contact No:", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10" style="padding-left: 15% ">
+                    @Html.EditorFor(model => model.ContactNo, new { htmlAttributes = new { @class = "form-control disable", @id = "EmployeeContact", @onkeyup = "validatecontact()" } })
+                    @Html.ValidationMessageFor(model => model.ContactNo, "", new { @class = "text-danger", @id = "EmpContact" })
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="form-group" id="Passwordhide">
+                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10" style="padding-left: 15% ">
+                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control disable", @id = "EmployeePassword", @onkeyup = "validatepassword()" } })
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger", @id = "EmpPassword" })
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="form-group form-gap">
+                @*<div class="control-label col-md-3"></div>*@
+                <div class="col-md-8">
+                    <span style="margin-left:35%">
+                        @Html.EditorFor(model => model.Isadmin, "Is Admin", new { htmlAttributes = new { @class = "disable" } })
+                    </span><b>Is-Admin</b>
+                    @Html.ValidationMessageFor(model => model.Isadmin, "", new { @class = "text-danger"})
+                </div>
+            </div>
+            <br />
+            <br />
+        </div>
+    </div>
+    <div class="modal-footer" style="padding-right:28px">
+        <button type="button" id="btnEdit" class="btn btn-warning" onclick="editemployee()" style="display:none;width:60px">Edit</button>
+        <button type="button" id="btnSave" class="btn btn-success" onclick="updateemployee()">Save</button>
+        <button type="button" id="addsave" class="btn btn-success" onclick="registeremployee()" style=" width:60px">Save</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    </div>
+</form>
+
+<script type="text/javascript">
+    $(document).ready(function ()
+    {
+        $('#Designation').val('@Model.Designation');
+
+        var operation = '@Model.ActionType.ToString()';
+
+        if (operation == '@Operations.Add')
+        {
+            $('.form-control').attr('disabled', false);
+        }
+        if (operation == '@Operations.Edit')
+        {
+            $('.form-control').attr('disabled', true);
+
+            $('#Designation').val('@Model.Designation');
+            document.getElementById("btnedit").disabled = false;
+            $('#Passwordhide').hide();
+
+        }
+    });
+    $("#Designation").change(function ()
+    {
+        var gen = $("#Designation").val();
+        $("#Designation").val(gen);
+});
+    function validatename() {
+        const specialChars = /^[A-z a-z]+$/;
+        var name = document.getElementById("EmployeeName").value;
+        if (name == "") {
+            document.getElementById("EmpName").textContent = "Name is required";
+            return false;
+        }
+        else if (!$("#EmployeeName").val().match(specialChars)) {
+            document.getElementById("EmpName").textContent = "Enter valid name";
+            return false;
+        }
+        else if (name.length < 3) {
+            document.getElementById("EmpName").textContent = "Name should be atleast 3 characters";
+            return false;
+        }
+        else if (name.length > 20) {
+            document.getElementById("EmpName").textContent = "Name should not be more than 20 characters";
+            return false;
+        }
+        else {
+            document.getElementById("EmpName").textContent = " ";
+            return true;
+        }
+    }
+    function validatedesignation() {
+        var gender = document.getElementById("Designation").value;
+        if (gender == "") {
+            document.getElementById("EmpDesignation").textContent = "Designation is required";
+        }
+        else if (gender.length <= 0) {
+            document.getElementById("EmpDesignation").textContent = "Please select a Designation";
+            return false;
+        }
+        else {
+            document.getElementById("EmpDesignation").textContent = "";
+        }
+    }
+    function validateemail() {
+        //const specialChars = /^[a-zA-Z0-9_\\.-]+/+[a-zA-Z]{2,6}$/;
+        var name = document.getElementById("EmployeeEmail").value;
+        if (name == "") {
+            document.getElementById("EmpEmail").textContent = "Email is required";
+            return false;
+        }
+        else if (name.length < 3) {
+            document.getElementById("EmpEmail").textContent = "Email should be atleast 5 characters";
+            return false;
+        }
+        else if (name.length > 20) {
+            document.getElementById("EmpEmail").textContent = "Email should not be more than 20 characters";
+            return false;
+        }
+        else {
+            document.getElementById("EmpEmail").textContent = " ";
+            return true;
+        }
+    }
+    function validatecontact() {
+        var contact = document.getElementById("EmployeeContact").value;
+        if (contact == "") {
+            document.getElementById("EmpContact").textContent = "Phone number is required";
+            return false;
+        }
+        else if (isNaN(contact)) {
+            document.getElementById("EmpContact").textContent = "Only numeric value is required";
+            return false;
+        }
+        else if ((contact.charAt(0) != 9) && (contact.charAt(0) != 8) && (contact.charAt(0) != 7)) {
+            document.getElementById("EmpContact").textContent = "Phone number must start with 9,8,7";
+            return false;
+        }
+        else if (contact.length < 10) {
+            document.getElementById("EmpContact").textContent = "Phone number must be 10 digit";
+            return false;
+        }
+        else if (contact.length > 10) {
+            document.getElementById("EmpContact").textContent = "Phone number must be 10 digit";
+            return false;
+        }
+        else {
+            document.getElementById("EmpContact").textContent = " ";
+            return true;
+        }
+    }
+    function validatepassword() {
+        const specialChars = /^[A-z a-z0-9]+$/;
+        var name = document.getElementById("EmployeePassword").value;
+        if (name == "") {
+            document.getElementById("EmpPassword").textContent = "Password is required";
+            return false;
+        }
+        else if (!$("#EmployeePassword").val().match(specialChars)) {
+            document.getElementById("EmpPassword").textContent = "Enter valid Email";
+            return false;
+        }
+        else if (name.length < 5) {
+            document.getElementById("EmpPassword").textContent = "Email should be atleast 5 characters";
+            return false;
+        }
+        else if (name.length > 20) {
+            document.getElementById("EmpPassword").textContent = "Email should not be more than 20 characters";
+            return false;
+        }
+        else {
+            document.getElementById("EmpPassword").textContent = " ";
+            return true;
+        }
+    }
+
+</script>

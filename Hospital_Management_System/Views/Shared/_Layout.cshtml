@@ -14,8 +14,21 @@
 </head>
 <body style="padding-top:0px";>
     <nav class="navbar navbar-inverse navbar-static-top">
-        <div class="container-fluid" style="text-align:center">
+        <div class="container-fluid" style="text-align: center; color: white;">
             <h3>HOSPITAL MANAGEMENT SYSTEM</h3>
+            <div style="margin-top: -3%;margin-left: 62%;">
+                @if (!string.IsNullOrEmpty(HttpContext.Current.User.Identity.Name))
+                {
+                    <b>Logged In As: @HttpContext.Current.User.Identity.Name</b>
+                }
+            </div>
+            <div style="margin-top:-2.2%;margin-left:94%;">
+                @if (!string.IsNullOrEmpty(HttpContext.Current.User.Identity.Name))
+                 {
+                     <a class="btn btn-danger" onclick="location.href='@Url.Action("LogOut", "Patients")'">Log Out</a>
+                 }
+            </div>
+            
         </div>
     </nav>
     <div class="container">

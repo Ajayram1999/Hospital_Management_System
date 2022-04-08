@@ -1,0 +1,83 @@
+{
+	"info": {
+		"_postman_id": "ed35c259-7f99-43ae-ae81-938ba540b04f",
+		"name": "Hospital Management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetEmployee",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:44333/api/User/GetEmployee?PageNumber=1&RowsInPage=10&SearchValue=a",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44333",
+					"path": [
+						"api",
+						"User",
+						"GetEmployee"
+					],
+					"query": [
+						{
+							"key": "PageNumber",
+							"value": "1"
+						},
+						{
+							"key": "RowsInPage",
+							"value": "10"
+						},
+						{
+							"key": "SearchValue",
+							"value": "a"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RegisterEmployee",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Getuserbyid",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "EditEmployee",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteEmployee",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}

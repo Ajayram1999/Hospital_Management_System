@@ -1,0 +1,46 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <title>Hospital Management System</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <style>
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 550px}
+
+    /* Set gray background color and 100% height */
+    .sidenav {
+      background-color: #f1f1f1;
+      height: 110%;
+    }
+
+    /* On small screens, set height to 'auto' for the grid */
+    
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row content">
+            <div class="col-sm-2 sidenav hidden-xs" style="margin-top:1.5%;margin-left:1%;">
+                <ul class="nav nav-pills nav-stacked" style="margin-top:10%;">
+                    <li><a onclick="location.href='@Url.Action("UserInfo", "Patients")'">Users Table</a></li>
+                    <li><a onclick="location.href='@Url.Action("AdminIndex", "Patients")'">Patients Table</a></li>
+                </ul><br>
+            </div>
+            <br>
+
+            <div class="col-sm-9">
+                <div class="well">
+                    <h4>Hospital Management System</h4>
+                    <p>
+                        A hospital information system is an element of health informatics that focuses mainly on the administrational needs of hospitals.
+                        This system shows the details of the patients and about the authorised persons details.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
